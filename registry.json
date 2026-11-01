@@ -32,7 +32,7 @@
     {
       "id": "remote-agent",
       "name": "Remote Server Agent v2.0",
-      "version": "2.0.1",
+      "version": "2.1.0",
       "description": "Управление парком удаленных серверов (VPS, хосты), двухсоставная TOTP авторизация и переключение между ними из шапки редактора",
       "author": "Config Studio Team",
       "icon": "🖥️",
