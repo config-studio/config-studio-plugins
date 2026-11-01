@@ -216,8 +216,8 @@
       "description": "Интерактивный Web SSH терминал (PTY), SFTP проводник файлов, хранилище ключей (UniSSH Vault) и Bastion ProxyJump",
       "author": "Config Studio Team",
       "icon": "💻",
-      "downloadUrl": "https://github.com/EdvardBaldanov/config-studio-ssh/releases/latest/download/ssh.cspkg",
-      "homepage": "https://github.com/EdvardBaldanov/config-studio-ssh",
+      "downloadUrl": "https://raw.githubusercontent.com/EdvardBaldanov/config-studio-plugins/main/packages/ssh.cspkg",
+      "homepage": "https://github.com/EdvardBaldanov/config-studio-plugins",
       "official": true,
       "locales": {
         "ru": {
