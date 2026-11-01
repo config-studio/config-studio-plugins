@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-01T05:37:26.275Z",
+  "updatedAt": "2026-11-01T08:49:54.846Z",
   "plugins": [
     {
       "id": "web-devkit",
@@ -183,6 +183,35 @@
         "Language",
         "German",
         "Deutsch"
+      ]
+    },
+    {
+      "id": "ssh",
+      "name": "SSH & SFTP Manager v1.0.0",
+      "version": "1.0.0",
+      "description": "Интерактивный Web SSH терминал (PTY), SFTP проводник файлов, хранилище ключей (UniSSH Vault) и Bastion ProxyJump",
+      "author": "Config Studio Team",
+      "icon": "💻",
+      "downloadUrl": "https://raw.githubusercontent.com/EdvardBaldanov/config-studio-plugins/main/packages/ssh.cspkg",
+      "homepage": "https://github.com/EdvardBaldanov/config-studio-ssh",
+      "official": true,
+      "locales": {
+        "ru": {
+          "name": "SSH & SFTP Менеджер",
+          "description": "Интерактивный Web SSH терминал (PTY), SFTP проводник файлов, хранилище ключей (UniSSH Vault) и Bastion ProxyJump"
+        },
+        "en": {
+          "name": "SSH & SFTP Manager",
+          "description": "Interactive Web SSH terminal (PTY), SFTP file explorer, key vault (UniSSH pattern) and Bastion ProxyJump"
+        }
+      },
+      "tags": [
+        "SSH",
+        "SFTP",
+        "Terminal",
+        "PTY",
+        "Vault",
+        "Bastion"
       ]
     }
   ]
