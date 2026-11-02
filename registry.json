@@ -3,6 +3,34 @@
   "updatedAt": "2026-11-01T09:36:51.114Z",
   "plugins": [
     {
+      "id": "servers",
+      "name": "Servers & Fleet Manager",
+      "version": "1.0.0",
+      "description": "Централизованное управление серверами, servers.yaml, нативный SSH/SFTP и агенты в едином универсальном переключателе",
+      "author": "Config Studio Team",
+      "icon": "server",
+      "downloadUrl": "https://raw.githubusercontent.com/config-studio/config-studio-plugins/main/packages/servers-1.0.0.cspkg",
+      "homepage": "https://github.com/config-studio/config-studio-servers",
+      "official": true,
+      "locales": {
+        "ru": {
+          "name": "Флот серверов & Инвентарь",
+          "description": "Управление парком серверов, servers.yaml, SSH/SFTP и агентами в едином переключателе"
+        },
+        "en": {
+          "name": "Servers & Fleet Manager",
+          "description": "Centralized server inventory, servers.yaml, native SSH/SFTP and agent integration in a unified switcher"
+        }
+      },
+      "tags": [
+        "Fleet",
+        "Servers",
+        "SSH",
+        "Agent",
+        "Infrastructure"
+      ]
+    },
+    {
       "id": "web-devkit",
       "name": "Web DevKit v1.3.2",
       "version": "1.3.2",
