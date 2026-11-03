@@ -3,8 +3,8 @@
 Official extension registry and catalog feed for [Config Studio](https://github.com/config-studio/config-studio).
 
 Hosted automatically via **GitHub Pages**:
-- **Registry Endpoint**: [`https://edvardbaldanov.github.io/config-studio-plugins/registry.json`](https://edvardbaldanov.github.io/config-studio-plugins/registry.json)
-- **Showcase Portal**: [`**Showcase Portal**`](https://edvardbaldanov.github.io/config-studio-plugins/)
+- [`**Registry Endpoint**`](https://config-studio.github.io/config-studio-plugins//registry.json)
+- [`**Showcase Portal**`](https://config-studio.github.io/config-studio-plugins/)
 
 ## 🚀 How it works
 Config Studio synchronizes this catalog directly from GitHub Pages in real-time. When a new plugin or language pack is published, users can install it in **1 click** without needing to recompile the main Config Studio binary!
