@@ -1,15 +1,15 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-01T09:36:51.114Z",
+  "updatedAt": "2026-11-03T00:39:37.216Z",
   "plugins": [
     {
       "id": "servers",
       "name": "Servers & Fleet Manager",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "description": "Централизованное управление серверами, servers.yaml, 1-Click установка агента с кастомным портом, нативный SSH/SFTP и безопасная раскатка",
       "author": "Config Studio Team",
       "icon": "server",
-      "downloadUrl": "https://raw.githubusercontent.com/config-studio/config-studio-plugins/main/packages/servers-1.1.1.cspkg",
+      "downloadUrl": "https://raw.githubusercontent.com/config-studio/config-studio-plugins/main/packages/servers-1.1.2.cspkg",
       "homepage": "https://github.com/config-studio/config-studio-servers",
       "official": true,
       "locales": {
