@@ -5,11 +5,11 @@
     {
       "id": "servers",
       "name": "Servers & Fleet Manager",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "description": "Централизованное управление серверами, servers.yaml, нативный SSH/SFTP, встроенный агент, отправка файлов и автообнаружение LAN",
       "author": "Config Studio Team",
       "icon": "server",
-      "downloadUrl": "https://raw.githubusercontent.com/config-studio/config-studio-plugins/main/packages/servers-1.2.0.cspkg",
+      "downloadUrl": "https://raw.githubusercontent.com/config-studio/config-studio-plugins/main/packages/servers-1.2.1.cspkg",
       "homepage": "https://github.com/config-studio/config-studio-servers",
       "official": true,
       "locales": {
