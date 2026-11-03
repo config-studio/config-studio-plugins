@@ -231,13 +231,13 @@
         active: 'Только активные',
         downloadPkg: 'Скачать .cspkg',
         repo: 'Репозиторий',
-        copyCmd: 'Скопировать команду',
-        copied: 'Команда скопирована!',
+        copyUrl: 'Скопировать прямую ссылку на .cspkg',
+        urlCopied: 'Ссылка скопирована! Вставьте в Настройки → Плагины → Установить по URL',
         superseded: 'Устарел: объединен с',
         official: 'Official',
         searchPlaceholder: 'Поиск по названию, тегам, ID или автору...',
         heroTitle: 'Каталог официальных плагинов & расширений',
-        heroDesc: 'Все пакеты упакованы в бинарный MRS-формат .cspkg, содержат криптографическую контрольную сумму SHA-256 и устанавливаются в один клик.'
+        heroDesc: 'Все пакеты упакованы в бинарный MRS-формат .cspkg. Установка: откройте Config Studio → Настройки → Плагины (вкладка Каталог), либо скачайте файл .cspkg и перетащите в окно приложения.'
       },
       en: {
         all: 'All',
@@ -247,13 +247,13 @@
         active: 'Active Only',
         downloadPkg: 'Download .cspkg',
         repo: 'Repository',
-        copyCmd: 'Copy install command',
-        copied: 'Command copied!',
+        copyUrl: 'Copy direct .cspkg download URL',
+        urlCopied: 'URL copied! Paste into Settings → Plugins → Install via URL',
         superseded: 'Superseded by',
         official: 'Official',
         searchPlaceholder: 'Search by name, tag, ID or author...',
         heroTitle: 'Official Plugins & Extension Registry',
-        heroDesc: 'All packages are compiled into binary MRS .cspkg archives, verified with SHA-256 checksums, and installable in 1-click.'
+        heroDesc: 'All packages are compiled into binary MRS .cspkg format. To install: open Config Studio → Settings → Plugins (Catalog tab), or drag and drop a downloaded .cspkg into the app.'
       },
       de: {
         all: 'Alle',
@@ -263,8 +263,8 @@
         active: 'Nur aktive',
         downloadPkg: '.cspkg herunterladen',
         repo: 'Repository',
-        copyCmd: 'Befehl kopieren',
-        copied: 'Befehl kopiert!',
+        copyUrl: '.cspkg-Download-Link kopieren',
+        urlCopied: 'Link kopiert! In Einstellungen → Plugins → Über URL installieren einfügen',
         superseded: 'Ersetzt durch',
         official: 'Offiziell',
         searchPlaceholder: 'Suche nach Name, Tag, ID...',
@@ -443,8 +443,8 @@
                     <span>.cspkg</span>
                   </a>
                 ` : ''}
-                <button onclick="copyInstallCmd('${escapeHtml(p.id)}')" class="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" title="${t.copyCmd}">
-                  📋
+                <button onclick="copyPkgUrl('${escapeHtml(p.downloadUrl)}')" class="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" title="${t.copyUrl}">
+                  🔗
                 </button>
               </div>
 
@@ -465,12 +465,13 @@
       handleSearch(tag);
     }
 
-    function copyInstallCmd(pluginId) {
-      const cmd = `cspkg install ${pluginId}`;
-      navigator.clipboard.writeText(cmd).then(() => {
-        showToast(`✓ Скопировано: ${cmd}`);
+    function copyPkgUrl(url) {
+      if (!url) return;
+      const t = UI_TRANSLATIONS[currentLocale] || UI_TRANSLATIONS.ru;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast(t.urlCopied || '✓ Ссылка на .cspkg скопирована!');
       }).catch(() => {
-        showToast(`cspkg install ${pluginId}`);
+        showToast(url);
       });
     }
 
