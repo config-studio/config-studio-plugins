@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-08T11:41:38.646Z",
+  "updatedAt": "2026-11-08T13:07:20.637Z",
   "plugins": [
     {
       "id": "servers",
@@ -225,11 +225,29 @@
       "locales": {
         "ru": {
           "name": "Traefik Управление конфигурацией",
-          "description": "Поддержка multi-file каталога правил (/etc/traefik/rules/), автодополнение middlewares mw-*@file, переход к определению, матрица сервисов и проверка целостности"
+          "description": "Поддержка multi-file каталога правил (/etc/traefik/rules/), автодополнение middlewares mw-*@file, переход к определению, матрица сервисов и проверка целостности",
+          "matrixTitle": "Матрица правил Traefik",
+          "newService": "Новый сервис",
+          "rescan": "Обновить граф",
+          "routers": "Маршрутизаторы",
+          "services": "Сервисы",
+          "middlewares": "Middlewares",
+          "allHealthy": "Все ссылки валидны",
+          "issues": "Проблемы",
+          "jumpToDefinition": "Перейти к определению"
         },
         "en": {
           "name": "Traefik Dynamic Configuration",
-          "description": "Multi-file rules directory provider (/etc/traefik/rules/), cross-file @file autocomplete, go-to-definition, rules matrix and reference integrity linter"
+          "description": "Multi-file rules directory provider (/etc/traefik/rules/), cross-file @file autocomplete, go-to-definition, rules matrix and reference integrity linter",
+          "matrixTitle": "Traefik Rules Matrix",
+          "newService": "New Service",
+          "rescan": "Refresh Graph",
+          "routers": "Routers",
+          "services": "Services",
+          "middlewares": "Middlewares",
+          "allHealthy": "All References Valid",
+          "issues": "Issues",
+          "jumpToDefinition": "Go to Definition"
         }
       },
       "tags": [
