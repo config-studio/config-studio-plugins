@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-08T05:38:03.533Z",
+  "updatedAt": "2026-11-08T11:41:38.646Z",
   "plugins": [
     {
       "id": "servers",
@@ -210,6 +210,34 @@
         "Language",
         "German",
         "Deutsch"
+      ]
+    },
+    {
+      "id": "traefik",
+      "name": "Traefik Dynamic Configuration",
+      "version": "1.0.0",
+      "description": "Multi-file rules directory provider, cross-file @file autocomplete, go-to-definition, rules matrix and new service wizard for Traefik",
+      "author": "Config Studio Team",
+      "icon": "network",
+      "downloadUrl": "https://raw.githubusercontent.com/config-studio/config-studio-plugins/main/packages/traefik-1.0.0.cspkg",
+      "homepage": "https://github.com/config-studio/config-studio-traefik",
+      "official": true,
+      "locales": {
+        "ru": {
+          "name": "Traefik Управление конфигурацией",
+          "description": "Поддержка multi-file каталога правил (/etc/traefik/rules/), автодополнение middlewares mw-*@file, переход к определению, матрица сервисов и проверка целостности"
+        },
+        "en": {
+          "name": "Traefik Dynamic Configuration",
+          "description": "Multi-file rules directory provider (/etc/traefik/rules/), cross-file @file autocomplete, go-to-definition, rules matrix and reference integrity linter"
+        }
+      },
+      "tags": [
+        "Traefik",
+        "Reverse Proxy",
+        "Docker",
+        "Routing",
+        "YAML"
       ]
     }
   ]
