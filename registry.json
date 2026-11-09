@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-09T05:47:34.226Z",
+  "updatedAt": "2026-11-09T10:42:00.000Z",
   "plugins": [
     {
       "id": "servers",
@@ -9,7 +9,7 @@
       "description": "Централизованное управление серверами, servers.yaml, нативный SSH/SFTP, встроенный агент, отправка файлов и автообнаружение LAN",
       "author": "Config Studio Team",
       "icon": "server",
-      "downloadUrl": "https://raw.githubusercontent.com/config-studio/config-studio-plugins/main/packages/servers-1.2.1.cspkg",
+      "downloadUrl": "https://github.com/config-studio/config-studio-servers/releases/latest/download/servers.cspkg",
       "homepage": "https://github.com/config-studio/config-studio-servers",
       "official": true,
       "locales": {
@@ -219,7 +219,7 @@
       "description": "Multi-file rules directory provider, cross-file @file autocomplete, go-to-definition, rules matrix and new service wizard for Traefik",
       "author": "Config Studio Team",
       "icon": "network",
-      "downloadUrl": "https://raw.githubusercontent.com/config-studio/config-studio-plugins/main/packages/traefik-1.0.0.cspkg",
+      "downloadUrl": "https://github.com/config-studio/config-studio-traefik/releases/latest/download/traefik.cspkg",
       "homepage": "https://github.com/config-studio/config-studio-traefik",
       "official": true,
       "locales": {
