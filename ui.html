@@ -11,10 +11,16 @@
       theme: {
         extend: {
           colors: {
-            brand: 'var(--accent)',
-            surface: '#0f172a',
-            card: '#161e31',
-            border: '#334155'
+            base: 'var(--color-base, #161b22)',
+            'base-surface': 'var(--color-surface, #21262d)',
+            'base-surface-hover': 'var(--color-surface-hover, #30363d)',
+            'base-border': 'var(--color-border, #30363d)',
+            accent: 'var(--color-accent, #00d2b4)',
+            'accent-hover': 'var(--color-accent-hover, #00b89e)',
+          },
+          fontFamily: {
+            sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'Menlo', 'monospace'],
           }
         }
       }
@@ -22,55 +28,67 @@
   </script>
   <style>
     :root {
-      --accent: #00d2b4;
+      --color-base: #161b22;
+      --color-surface: #21262d;
+      --color-surface-hover: #30363d;
+      --color-border: #30363d;
+      --color-accent: #00d2b4;
+      --color-accent-hover: #00b89e;
       --accent-rgb: 0, 210, 180;
     }
     body {
-      background-color: #0b0f19;
+      background-color: var(--color-base);
       color: #e2e8f0;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
     .custom-scrollbar::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
+      width: 6px;
+      height: 6px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
       background: transparent;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #334155;
+      background: var(--color-border);
       border-radius: 9999px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: var(--accent);
+      background: var(--color-accent);
     }
     .btn-accent {
-      background-color: var(--accent);
+      background-color: var(--color-accent);
       color: #0b0f19;
     }
     .btn-accent:hover {
       filter: brightness(1.1);
     }
     .accent-border {
-      border-color: var(--accent);
+      border-color: var(--color-accent);
     }
     .accent-text {
-      color: var(--accent);
+      color: var(--color-accent);
     }
     .accent-bg-alpha {
       background-color: rgba(var(--accent-rgb), 0.15);
     }
 
-    /* Modal standard sizes from ROADMAP */
-    .modal-sm { width: 400px; max-width: 95vw; }
-    .modal-md { width: 540px; max-width: 95vw; }
-    .modal-lg { width: 720px; max-width: 95vw; }
-    .modal-xl { width: 900px; max-width: 95vw; }
-    .modal-fullscreen { width: 100vw; height: 100vh; max-width: none; border-radius: 0; }
-    .modal-fixed {
-      height: 82vh;
-      min-height: 580px;
-      max-height: 820px;
+    /* Modal standard sizes (20% step system from ROADMAP v2.0) */
+    .modal-fullscreen { width: 100vw; height: 100vh; min-width: 100vw; min-height: 100vh; border-radius: 0 !important; }
+    .modal-xxl { width: 80vw; height: 80vh; min-width: 780px; min-height: 580px; }
+    .modal-xl { width: 60vw; height: 70vh; min-width: 620px; min-height: 480px; }
+    .modal-lg { width: 45vw; height: 60vh; min-width: 500px; min-height: 400px; }
+    .modal-md { width: 32vw; min-width: 420px; max-height: 85vh; }
+    .modal-sm { width: 24vw; min-width: 360px; max-height: 85vh; }
+
+    @media (max-width: 640px) {
+      .modal-xxl, .modal-xl, .modal-lg, .modal-md, .modal-sm {
+        width: 100vw !important;
+        height: 100vh !important;
+        min-width: 100vw !important;
+        min-height: 100vh !important;
+        border-radius: 0 !important;
+      }
     }
 
     /* Form 2-column grid */
@@ -79,394 +97,819 @@
       grid-template-columns: 2fr 1fr;
       gap: 12px;
     }
+    @media (max-width: 640px) {
+      .form-grid-2-1 {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-teal-500/30 selection:text-teal-200">
 
-  <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+  <!-- Header with Global Navigation & Theme Controls Bar -->
+  <header class="border-b border-base-border bg-base-surface/80 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <a href="index.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition flex items-center gap-1.5 text-xs font-semibold" title="Вернуться в каталог">
+        <a href="index.html" class="p-2 rounded-xl bg-black/20 hover:bg-black/30 dark:bg-white/5 dark:hover:bg-white/10 text-gray-300 transition flex items-center gap-1.5 text-xs font-semibold" title="Вернуться в каталог">
           <span>←</span>
-          <span>Каталог плагинов</span>
+          <span class="hidden sm:inline">Каталог плагинов</span>
         </a>
-        <div class="h-4 w-px bg-slate-700"></div>
+        <div class="h-4 w-px bg-base-border"></div>
         <div class="flex items-center space-x-2">
           <span class="text-xl">🎨</span>
           <span class="font-extrabold text-white text-base tracking-tight">@config-studio/ui</span>
-          <span class="text-xs px-2 py-0.5 rounded-full bg-teal-500/15 text-teal-400 border border-teal-500/30 font-mono">v1.9.7</span>
+          <span class="text-xs px-2 py-0.5 rounded-full bg-teal-500/15 text-teal-400 border border-teal-500/30 font-mono">v2.0.0</span>
         </div>
       </div>
 
-      <!-- Live Accent Color Picker -->
-      <div class="flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-2xl border border-slate-700">
-        <span class="text-[11px] text-slate-400 font-medium hidden sm:inline">Акцент темы:</span>
-        <div class="flex items-center space-x-1.5">
-          <button onclick="setThemeAccent('#00d2b4', '0, 210, 180')" class="w-5 h-5 rounded-full bg-[#00d2b4] ring-2 ring-white/50 transition hover:scale-110" title="Emerald (Default)"></button>
-          <button onclick="setThemeAccent('#38bdf8', '56, 189, 248')" class="w-5 h-5 rounded-full bg-[#38bdf8] transition hover:scale-110" title="Sky Blue (Fleet)"></button>
-          <button onclick="setThemeAccent('#a855f7', '168, 85, 247')" class="w-5 h-5 rounded-full bg-[#a855f7] transition hover:scale-110" title="Purple (Vault)"></button>
-          <button onclick="setThemeAccent('#f59e0b', '245, 158, 11')" class="w-5 h-5 rounded-full bg-[#f59e0b] transition hover:scale-110" title="Amber (Canary)"></button>
-          <button onclick="setThemeAccent('#f43f5e', '244, 63, 94')" class="w-5 h-5 rounded-full bg-[#f43f5e] transition hover:scale-110" title="Rose (Danger)"></button>
+      <!-- Quick Theme Switcher in Header -->
+      <div class="flex items-center space-x-2.5">
+        <!-- Dark / Light Mode Toggle -->
+        <button
+          id="theme-mode-btn"
+          onclick="toggleThemeMode()"
+          class="p-2 rounded-xl border border-base-border bg-black/20 hover:bg-black/30 dark:bg-white/5 dark:hover:bg-white/10 text-gray-200 text-xs flex items-center gap-1.5 transition cursor-pointer"
+          title="Переключить тему (Тёмная / Светлая)"
+        >
+          <span id="theme-mode-icon">🌙</span>
+          <span id="theme-mode-text" class="hidden md:inline font-medium">Тёмная</span>
+        </button>
+
+        <!-- Base Color Quick Select Dropdown -->
+        <div class="relative">
+          <button
+            onclick="toggleBaseDropdown(event)"
+            class="px-2.5 py-1.5 rounded-xl border border-base-border bg-black/20 hover:bg-black/30 dark:bg-white/5 dark:hover:bg-white/10 text-xs flex items-center space-x-2 transition cursor-pointer"
+            title="Основной цвет фона (Base Color)"
+          >
+            <span id="header-base-indicator" class="w-3.5 h-3.5 rounded-full border border-gray-400/40 shadow-xs"></span>
+            <span class="hidden lg:inline text-gray-300 font-medium">Фон</span>
+            <span class="text-[9px] text-gray-400">▼</span>
+          </button>
+          <div
+            id="header-base-menu"
+            class="hidden absolute right-0 mt-2 w-56 p-2 rounded-2xl bg-base-surface border border-base-border shadow-2xl z-50 space-y-1.5 text-xs"
+          >
+            <div class="text-[10px] uppercase font-bold text-gray-400 px-2 py-1 tracking-wider">Пресеты фона (Base)</div>
+            <div id="header-base-presets" class="space-y-1"></div>
+            <div class="pt-1.5 border-t border-base-border flex items-center justify-between px-2">
+              <span class="text-[11px] text-gray-400">Свой HEX:</span>
+              <input type="color" id="header-custom-base" onchange="setBaseColor(this.value)" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0" />
+            </div>
+          </div>
         </div>
+
+        <!-- Accent Color Quick Select Dropdown -->
+        <div class="relative">
+          <button
+            onclick="toggleAccentDropdown(event)"
+            class="px-2.5 py-1.5 rounded-xl border border-base-border bg-black/20 hover:bg-black/30 dark:bg-white/5 dark:hover:bg-white/10 text-xs flex items-center space-x-2 transition cursor-pointer"
+            title="Акцентный цвет (Accent Color)"
+          >
+            <span id="header-accent-indicator" class="w-3.5 h-3.5 rounded-full border border-gray-400/40 shadow-xs"></span>
+            <span class="hidden lg:inline text-gray-300 font-medium">Акцент</span>
+            <span class="text-[9px] text-gray-400">▼</span>
+          </button>
+          <div
+            id="header-accent-menu"
+            class="hidden absolute right-0 mt-2 w-56 p-2 rounded-2xl bg-base-surface border border-base-border shadow-2xl z-50 space-y-1.5 text-xs"
+          >
+            <div class="text-[10px] uppercase font-bold text-gray-400 px-2 py-1 tracking-wider">Пресеты акцента</div>
+            <div id="header-accent-presets" class="space-y-1"></div>
+            <div class="pt-1.5 border-t border-base-border flex items-center justify-between px-2">
+              <span class="text-[11px] text-gray-400">Свой HEX:</span>
+              <input type="color" id="header-custom-accent" onchange="setAccentColor(this.value)" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <button
+          onclick="resetTheme()"
+          class="p-2 rounded-xl border border-base-border text-gray-400 hover:text-white hover:bg-black/20 text-xs transition cursor-pointer"
+          title="Сбросить цвета к дефолтным"
+        >
+          🔄
+        </button>
       </div>
     </div>
   </header>
 
   <!-- Showcase Hero -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-4 w-full">
-    <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900/90 to-teal-950/20 border border-slate-800 shadow-xl">
-      <div class="max-w-2xl space-y-2">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/25 text-teal-300 text-xs font-semibold">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4 w-full">
+    <div class="p-6 sm:p-8 rounded-3xl bg-base-surface border border-base-border shadow-xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-accent/10 blur-3xl pointer-events-none"></div>
+      <div class="max-w-3xl space-y-3 relative z-10">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accent/15 border border-accent/30 text-accent text-xs font-semibold">
           <span>💎</span>
-          <span>Официальный UI Kit & Design System</span>
+          <span>Официальный UI Kit & Design System v2.0.0</span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-          Интерактивная витрина компонентов
+          Интерактивная витрина дизайн-системы
         </h1>
-        <p class="text-sm text-slate-400 leading-relaxed">
-          Здесь собраны все эталонные компоненты, размеры модальных окон, кастомные селекторы и Zero-Jitter геометрия из спецификации <a href="https://github.com/config-studio/config-studio/blob/main/ROADMAP.md" target="_blank" class="text-teal-400 hover:underline font-mono text-xs">ROADMAP.md</a>. Переключайте акцент темы вверху, чтобы увидеть адаптивность компонентов.
+        <p class="text-sm text-gray-300 leading-relaxed">
+          Живой полигон компонентов, сетки модальных окон с шагом 20%, динамического разворачивания, Zero-Jitter геометрии и полной системы тем (Dark/Light + Base/Accent) из приложения <strong class="text-white">Config Studio</strong>.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Showcase Content -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 w-full space-y-10 flex-1">
+  <!-- Main Showcase Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8 w-full flex-1">
 
-    <!-- 1. Modal Dialogs & Canonical Sizes -->
-    <section class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <!-- 0. THEME & COLOR ENGINE (НОВАЯ СЕКЦИЯ: НАСТРОЙКА ОСНОВНОГО И АКЦЕНТНОГО ЦВЕТА) -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="flex items-center justify-between border-b border-base-border pb-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>🎨</span>
+            <span>0. Управление темами: Основной (Base) и Акцентный (Accent) цвет</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">
+            Точно такое же поведение, как в настройках Config Studio (<code class="text-accent font-mono">GeneralTab.tsx</code>). Динамический пересчет яркости поверхностей, контрастности и автосохранение в <code class="text-accent font-mono">localStorage</code>.
+          </p>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-lg bg-black/25 text-gray-300 font-mono border border-base-border">THEME ENGINE</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Base Color Picker Box -->
+        <div class="p-5 rounded-2xl bg-black/20 border border-base-border space-y-4">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-semibold uppercase tracking-wider text-gray-300 flex items-center space-x-2">
+              <span>🖼️</span>
+              <span>Основной цвет фона (Base Color)</span>
+            </label>
+            <span id="current-base-hex" class="text-xs font-mono px-2 py-0.5 rounded bg-black/30 text-accent">#161b22</span>
+          </div>
+          <p class="text-[11px] text-gray-400">
+            Определяет фоновый оттенок холста. Поверхности (<code class="text-gray-300 font-mono">base-surface</code>) и границы автоматически подстраиваются под него:
+          </p>
+          <div class="flex flex-wrap gap-2" id="section-base-presets"></div>
+          <div class="flex items-center space-x-3 pt-2 border-t border-base-border/50">
+            <span class="text-xs text-gray-400">Выбрать произвольный:</span>
+            <input type="color" id="section-custom-base" onchange="setBaseColor(this.value)" class="w-8 h-8 rounded-lg cursor-pointer bg-transparent border-0" />
+            <input type="text" id="section-custom-base-text" onchange="setBaseColor(this.value)" class="w-28 px-2.5 py-1 bg-black/30 border border-base-border rounded-xl text-xs font-mono text-white" />
+          </div>
+        </div>
+
+        <!-- Accent Color Picker Box -->
+        <div class="p-5 rounded-2xl bg-black/20 border border-base-border space-y-4">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-semibold uppercase tracking-wider text-gray-300 flex items-center space-x-2">
+              <span>⚡</span>
+              <span>Акцентный цвет (Accent Color)</span>
+            </label>
+            <span id="current-accent-hex" class="text-xs font-mono px-2 py-0.5 rounded bg-black/30 text-accent">#00d2b4</span>
+          </div>
+          <p class="text-[11px] text-gray-400">
+            Определяет акценты кнопок, фокусов, спиннеров, активных табов и подсветку синтаксиса:
+          </p>
+          <div class="flex flex-wrap gap-2" id="section-accent-presets"></div>
+          <div class="flex items-center space-x-3 pt-2 border-t border-base-border/50">
+            <span class="text-xs text-gray-400">Выбрать произвольный:</span>
+            <input type="color" id="section-custom-accent" onchange="setAccentColor(this.value)" class="w-8 h-8 rounded-lg cursor-pointer bg-transparent border-0" />
+            <input type="text" id="section-custom-accent-text" onchange="setAccentColor(this.value)" class="w-28 px-2.5 py-1 bg-black/30 border border-base-border rounded-xl text-xs font-mono text-white" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Token Live Palette Inspection Strip -->
+      <div class="p-4 rounded-2xl bg-black/30 border border-base-border space-y-2">
+        <span class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">Текущие CSS-переменные дизайн-системы:</span>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 text-xs font-mono">
+          <div class="p-2.5 rounded-xl bg-base border border-base-border">
+            <span class="text-[10px] text-gray-400 block">--color-base</span>
+            <span id="token-base-val" class="text-white font-semibold">#161b22</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-base-surface border border-base-border">
+            <span class="text-[10px] text-gray-400 block">--color-surface</span>
+            <span id="token-surface-val" class="text-white font-semibold">#21262d</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-base-surface-hover border border-base-border">
+            <span class="text-[10px] text-gray-400 block">--color-surface-hover</span>
+            <span id="token-hover-val" class="text-white font-semibold">#30363d</span>
+          </div>
+          <div class="p-2.5 rounded-xl border border-base-border bg-black/10">
+            <span class="text-[10px] text-gray-400 block">--color-border</span>
+            <span id="token-border-val" class="text-white font-semibold">#30363d</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-accent text-slate-950 font-bold">
+            <span class="text-[10px] opacity-80 block">--color-accent</span>
+            <span id="token-accent-val">#00d2b4</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-accent/15 text-accent border border-accent/30 font-bold">
+            <span class="text-[10px] opacity-80 block">accent-bg-alpha</span>
+            <span id="token-rgb-val">15% Alpha</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. MODAL CANONICAL SIZES (20% STEP SYSTEM + DYNAMIC MAXIMIZE) -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="flex items-center justify-between border-b border-base-border pb-4">
         <div>
           <h2 class="text-lg font-bold text-white flex items-center gap-2">
             <span>🪟</span>
-            <span>1. Эталонные размеры модальных окон (Modal)</span>
+            <span>1. Сетка размеров модальных окон (Шаг 20% + Dynamic Maximize)</span>
           </h2>
-          <p class="text-xs text-slate-400 mt-0.5">Фиксированные эталонные размеры и Zero-Jitter Guarantee (без скачков высоты при смене табов)</p>
+          <p class="text-xs text-gray-400 mt-0.5">
+            Пропорциональная сетка с 10% отступами на xxl, динамической кнопкой Maximize/Restore и мобильной адаптивностью (100% на экранах &lt;640px).
+          </p>
         </div>
-        <span class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 font-mono">ROADMAP v1.9.7</span>
+        <div class="flex items-center space-x-2">
+          <label class="text-xs text-gray-300 flex items-center space-x-1.5 bg-black/20 px-2.5 py-1 rounded-lg border border-base-border cursor-pointer">
+            <input type="checkbox" id="allow-maximize-toggle" checked class="rounded accent-accent" />
+            <span>allowMaximize</span>
+          </label>
+          <span class="text-xs px-2.5 py-1 rounded-lg bg-black/25 text-gray-300 font-mono border border-base-border">20% STEP</span>
+        </div>
       </div>
 
-      <!-- Canonical Size Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
-        <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between">
+      <!-- 6 Modal Size Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 text-xs">
+        <!-- sm -->
+        <div class="p-4 rounded-2xl bg-black/25 border border-base-border flex flex-col justify-between hover:border-gray-500/30 transition">
           <div>
-            <div class="font-bold text-white text-sm">sm (400px)</div>
-            <div class="text-[11px] text-slate-400 mt-1">Опасные операции, подтверждения, ввод PIN/пароля</div>
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white text-sm">sm (24vw)</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-black/30 text-gray-400 font-mono">≥360px</span>
+            </div>
+            <p class="text-[11px] text-gray-400 mt-1.5 leading-relaxed">
+              Диалоги подтверждения, удаление, ввод пароля/PIN.
+            </p>
           </div>
-          <button onclick="openDemoModal('sm')" class="mt-4 w-full py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium transition text-[11px]">
+          <button onclick="openShowcaseModal('sm')" class="mt-4 w-full py-1.5 px-3 rounded-xl bg-black/30 hover:bg-black/50 text-white font-medium transition text-[11px] border border-base-border cursor-pointer">
             Открыть sm
           </button>
         </div>
 
-        <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between">
+        <!-- md -->
+        <div class="p-4 rounded-2xl bg-black/25 border border-base-border flex flex-col justify-between hover:border-gray-500/30 transition">
           <div>
-            <div class="font-bold text-white text-sm">md (540px)</div>
-            <div class="text-[11px] text-slate-400 mt-1">Отправка файла на узел, сканирование LAN, токен</div>
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white text-sm">md (32vw)</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-black/30 text-gray-400 font-mono">≥420px</span>
+            </div>
+            <p class="text-[11px] text-gray-400 mt-1.5 leading-relaxed">
+              Добавление рабочей папки, быстрые формы, генератор ключей.
+            </p>
           </div>
-          <button onclick="openDemoModal('md')" class="mt-4 w-full py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium transition text-[11px]">
+          <button onclick="openShowcaseModal('md')" class="mt-4 w-full py-1.5 px-3 rounded-xl bg-black/30 hover:bg-black/50 text-white font-medium transition text-[11px] border border-base-border cursor-pointer">
             Открыть md
           </button>
         </div>
 
-        <div class="p-4 rounded-2xl bg-slate-950/70 border border-teal-500/30 bg-teal-500/5 flex flex-col justify-between">
+        <!-- lg -->
+        <div class="p-4 rounded-2xl bg-black/25 border border-base-border flex flex-col justify-between hover:border-gray-500/30 transition">
           <div>
             <div class="flex items-center justify-between">
-              <span class="font-bold text-teal-300 text-sm">lg (720px)</span>
-              <span class="text-[9px] px-1.5 py-0.2 rounded bg-teal-500/20 text-teal-300 font-mono">ZERO-JITTER</span>
+              <span class="font-bold text-white text-sm">lg (45vw)</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-black/30 text-gray-400 font-mono">≥500×400</span>
             </div>
-            <div class="text-[11px] text-slate-400 mt-1">Настройки узла во флоте (4 таба), свойства файлов</div>
+            <p class="text-[11px] text-gray-400 mt-1.5 leading-relaxed">
+              Свойства файла, ревизии Time Machine, инспектор плагинов.
+            </p>
           </div>
-          <button onclick="openDemoModal('lg')" class="mt-4 w-full py-1.5 px-3 rounded-xl btn-accent font-semibold transition text-[11px]">
-            Открыть lg (Флот)
+          <button onclick="openShowcaseModal('lg')" class="mt-4 w-full py-1.5 px-3 rounded-xl bg-black/30 hover:bg-black/50 text-white font-medium transition text-[11px] border border-base-border cursor-pointer">
+            Открыть lg
           </button>
         </div>
 
-        <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between">
+        <!-- xl -->
+        <div class="p-4 rounded-2xl bg-black/25 border border-base-border flex flex-col justify-between hover:border-gray-500/30 transition">
           <div>
-            <div class="font-bold text-white text-sm">xl (900px)</div>
-            <div class="text-[11px] text-slate-400 mt-1">Тяжелые конфигураторы, Diff-сравнение ревизий</div>
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white text-sm">xl (60vw)</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-accent/20 text-accent font-mono">20% поля</span>
+            </div>
+            <p class="text-[11px] text-gray-400 mt-1.5 leading-relaxed">
+              Diff-сравнение ревизий, конфигуратор флота серверов.
+            </p>
           </div>
-          <button onclick="openDemoModal('xl')" class="mt-4 w-full py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium transition text-[11px]">
+          <button onclick="openShowcaseModal('xl')" class="mt-4 w-full py-1.5 px-3 rounded-xl bg-black/30 hover:bg-black/50 text-white font-medium transition text-[11px] border border-base-border cursor-pointer">
             Открыть xl
           </button>
         </div>
 
-        <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between">
+        <!-- xxl -->
+        <div class="p-4 rounded-2xl bg-black/25 border border-accent/40 flex flex-col justify-between hover:border-accent transition shadow-sm">
           <div>
-            <div class="font-bold text-white text-sm">fullscreen</div>
-            <div class="text-[11px] text-slate-400 mt-1">Полноэкранный просмотрщик и терминал</div>
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-accent text-sm">xxl (80vw)</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-accent/20 text-accent font-mono">10% поля</span>
+            </div>
+            <p class="text-[11px] text-gray-400 mt-1.5 leading-relaxed">
+              Главное окно настроек (SettingsModal), многоколоночные вкладки.
+            </p>
           </div>
-          <button onclick="openDemoModal('fullscreen')" class="mt-4 w-full py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium transition text-[11px]">
-            Открыть full
+          <button onclick="openShowcaseModal('xxl')" class="mt-4 w-full py-1.5 px-3 rounded-xl btn-accent font-semibold transition text-[11px] cursor-pointer">
+            Открыть xxl 🚀
+          </button>
+        </div>
+
+        <!-- fullscreen -->
+        <div class="p-4 rounded-2xl bg-black/25 border border-base-border flex flex-col justify-between hover:border-gray-500/30 transition">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white text-sm">fullscreen</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-black/30 text-gray-400 font-mono">100vw×vh</span>
+            </div>
+            <p class="text-[11px] text-gray-400 mt-1.5 leading-relaxed">
+              Полноэкранный SSH веб-терминал, полноэкранный редактор кода.
+            </p>
+          </div>
+          <button onclick="openShowcaseModal('fullscreen')" class="mt-4 w-full py-1.5 px-3 rounded-xl bg-black/30 hover:bg-black/50 text-white font-medium transition text-[11px] border border-base-border cursor-pointer">
+            Fullscreen
           </button>
         </div>
       </div>
     </section>
 
-    <!-- 2. Dropdowns & Selectors -->
-    <section class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <!-- 2. CONFIRM MODAL (НОВЫЙ КОМПОНЕНТ) -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="flex items-center justify-between border-b border-base-border pb-4">
         <div>
           <h2 class="text-lg font-bold text-white flex items-center gap-2">
-            <span>🔽</span>
-            <span>2. Интерактивные выпадающие списки (Custom Dropdown)</span>
+            <span>🛡️</span>
+            <span>2. Диалоги подтверждения (ConfirmModal)</span>
           </h2>
-          <p class="text-xs text-slate-400 mt-0.5">Встроенный поиск, статусные точки, бейджи протоколов и защита от выпадения за экран (Auto-Flip)</p>
+          <p class="text-xs text-gray-400 mt-0.5">
+            Красивая замена нативного <code class="text-accent font-mono">window.confirm()</code> с поддержкой Danger / Warning / Primary вариантов и состоянием загрузки.
+          </p>
         </div>
-        <span class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 font-mono">@config-studio/ui</span>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Dropdown 1: SSH Host Selector -->
-        <div class="space-y-2">
-          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Выбор SSH сервера (Fleet)</label>
-          <div id="demo-dropdown-hosts" class="relative"></div>
-          <p class="text-[11px] text-slate-500">Используется в тулбаре и терминале для мгновенного переключения контекста.</p>
-        </div>
-
-        <!-- Dropdown 2: Core Vault Secrets -->
-        <div class="space-y-2">
-          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Секрет из Core Vault</label>
-          <div id="demo-dropdown-vault" class="relative"></div>
-          <p class="text-[11px] text-slate-500">Отображает читаемые названия секретов, ID и цветовые бейджи типов.</p>
-        </div>
-
-        <!-- Dropdown 3: SFTP Panel Toolbar Mode -->
-        <div class="space-y-2">
-          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">SFTP Explorer (Компактный режим)</label>
-          <div class="p-3 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col gap-2">
-            <div id="demo-dropdown-sftp" class="relative w-full"></div>
-            <!-- Segmented Buttons Toolbar -->
-            <div class="flex items-center justify-center">
-              <div class="inline-flex items-center justify-center p-0.5 bg-slate-900 border border-slate-800 rounded-xl space-x-1">
-                <button class="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-teal-300 transition" title="SSH Терминал">
-                  💻
-                </button>
-                <button class="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-teal-300 transition" title="Обновить">
-                  🔄
-                </button>
-                <button class="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-teal-300 transition" title="Настройки серверов">
-                  ⚙️
-                </button>
-              </div>
-            </div>
-          </div>
-          <p class="text-[11px] text-slate-500">Двухуровневая компоновка: список на всю ширину + кнопки управления по центру.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Buttons & Segmented Controls -->
-    <section class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-          <span>🔘</span>
-          <span>3. Кнопки и сегментированные группы (Buttons)</span>
-        </h2>
-        <p class="text-xs text-slate-400 mt-0.5">Primary, Secondary, Ghost, Outline, Danger и спиннеры загрузки</p>
-      </div>
-
-      <div class="space-y-4">
-        <!-- Variants -->
-        <div class="flex flex-wrap items-center gap-3">
-          <button class="px-4 py-2 rounded-xl btn-accent font-semibold text-xs shadow-md transition">
-            Primary Action
-          </button>
-          <button class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium text-xs transition">
-            Secondary
-          </button>
-          <button class="px-4 py-2 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-300 font-medium text-xs transition">
-            Outline
-          </button>
-          <button class="px-4 py-2 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white font-medium text-xs transition">
-            Ghost
-          </button>
-          <button class="px-4 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-400 border border-rose-500/30 font-medium text-xs transition">
-            Danger Action
-          </button>
-          <button disabled class="px-4 py-2 rounded-xl bg-slate-800/40 text-slate-600 border border-slate-800 font-medium text-xs cursor-not-allowed">
-            Disabled
-          </button>
-          <button class="px-4 py-2 rounded-xl btn-accent font-semibold text-xs shadow-md flex items-center gap-2">
-            <div class="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin"></div>
-            <span>Loading...</span>
-          </button>
-        </div>
-
-        <!-- Segmented Controls (Tab Switcher) -->
-        <div class="pt-2">
-          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Сегментированный переключатель (Segmented Control)</label>
-          <div class="inline-flex p-1 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-medium">
-            <button class="px-3 py-1.5 rounded-xl bg-teal-500/15 text-teal-300 border border-teal-500/30">Все узлы</button>
-            <button class="px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition">Production</button>
-            <button class="px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition">Staging</button>
-            <button class="px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition">Edge Agents</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Toggles & Switches -->
-    <section class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-          <span>🎚️</span>
-          <span>4. Переключатели (Toggle Switch)</span>
-        </h2>
-        <p class="text-xs text-slate-400 mt-0.5">Плавные переключатели параметров с акцентной подсветкой</p>
+        <span class="text-xs px-2.5 py-1 rounded-lg bg-black/25 text-gray-300 font-mono border border-base-border">ConfirmModal.tsx</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
-          <div>
-            <div class="text-xs font-bold text-white">SSH/SFTP прямое управление</div>
-            <div class="text-[11px] text-slate-400">Включить нативный SFTP клиент</div>
+        <!-- Danger Variant -->
+        <div class="p-4 rounded-2xl bg-black/20 border border-red-500/30 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <div class="p-1.5 rounded-lg bg-red-500/15 text-red-400 border border-red-500/30 text-xs">🗑️</div>
+              <span class="font-bold text-red-400 text-xs">Danger (Опасные действия)</span>
+            </div>
+            <p class="text-[11px] text-gray-400">
+              Удаление секретов, серверов, рабочих папок, плагинов.
+            </p>
           </div>
-          <button onclick="toggleSwitch(this)" class="w-11 h-6 rounded-full bg-teal-500 p-0.5 transition flex items-center justify-end">
+          <button
+            onclick="openConfirmDemo('danger', 'Удаление секрета', 'Вы действительно хотите удалить секрет «prod_db_master_password»? Это действие необратимо.', 'Удалить')"
+            class="w-full py-2 px-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/30 text-xs font-semibold transition cursor-pointer"
+          >
+            Демо: Удалить секрет
+          </button>
+        </div>
+
+        <!-- Warning Variant -->
+        <div class="p-4 rounded-2xl bg-black/20 border border-amber-500/30 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <div class="p-1.5 rounded-lg bg-amber-500/15 text-amber-400 border border-amber-500/30 text-xs">⚠️</div>
+              <span class="font-bold text-amber-400 text-xs">Warning (Предупреждения)</span>
+            </div>
+            <p class="text-[11px] text-gray-400">
+              Сброс настроек приложения в дефолт, перезагрузка демона без сохранения.
+            </p>
+          </div>
+          <button
+            onclick="openConfirmDemo('warning', 'Сброс настроек по умолчанию', 'Все локальные параметры внешнего вида и языка будут сброшены. Продолжить?', 'Сбросить')"
+            class="w-full py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs font-semibold transition cursor-pointer"
+          >
+            Демо: Сбросить настройки
+          </button>
+        </div>
+
+        <!-- Primary Variant -->
+        <div class="p-4 rounded-2xl bg-black/20 border border-accent/30 flex flex-col justify-between space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <div class="p-1.5 rounded-lg bg-accent/15 text-accent border border-accent/30 text-xs">❓</div>
+              <span class="font-bold text-accent text-xs">Primary (Подтверждение)</span>
+            </div>
+            <p class="text-[11px] text-gray-400">
+              Применение профиля конфигурации, синхронизация каталога.
+            </p>
+          </div>
+          <button
+            onclick="openConfirmDemo('primary', 'Синхронизация профиля', 'Применить импортированные настройки профиля к текущему рабочему пространству?', 'Применить')"
+            class="w-full py-2 px-3 rounded-xl bg-accent/20 hover:bg-accent/30 text-accent border border-accent/30 text-xs font-semibold transition cursor-pointer"
+          >
+            Демо: Применить профиль
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. EMPTY STATE (НОВЫЙ КОМПОНЕНТ) -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="flex items-center justify-between border-b border-base-border pb-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>📦</span>
+            <span>3. Пустые состояния (EmptyState)</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">
+            Единый компонент для пустых списков, состояний загрузки со спиннером и сброса фильтров.
+          </p>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-lg bg-black/25 text-gray-300 font-mono border border-base-border">EmptyState.tsx</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 1. Standard Empty -->
+        <div class="p-6 text-center text-xs text-gray-400 border border-base-border rounded-2xl bg-black/15 flex flex-col items-center justify-center space-y-2">
+          <div class="text-2xl opacity-60 mb-1">🔑</div>
+          <span class="font-semibold text-gray-200">Секреты не найдены</span>
+          <span class="text-[11px] text-gray-400 max-w-xs leading-relaxed">
+            В защищенном хранилище пока нет сохраненных учетных записей или ключей.
+          </span>
+        </div>
+
+        <!-- 2. Loading State -->
+        <div class="p-6 text-center text-xs text-gray-400 border border-base-border rounded-2xl bg-black/15 flex items-center justify-center space-x-2">
+          <span class="animate-spin text-accent text-base">🔄</span>
+          <span>Загрузка списка серверов флота...</span>
+        </div>
+
+        <!-- 3. Filtered with Action -->
+        <div class="p-6 text-center text-xs text-gray-400 border border-base-border rounded-2xl bg-black/15 flex flex-col items-center justify-center space-y-2">
+          <div class="text-2xl opacity-60 mb-1">🔍</div>
+          <span class="font-semibold text-gray-200">Ничего не найдено</span>
+          <span class="text-[11px] text-gray-400 max-w-xs leading-relaxed">
+            По запросу «nginx_custom» совпадений не обнаружено.
+          </span>
+          <button onclick="showToast('Фильтр очищен', 'info')" class="mt-2 px-3 py-1.5 rounded-xl bg-black/30 hover:bg-black/50 text-gray-200 border border-base-border text-[11px] font-medium transition cursor-pointer">
+            Сбросить фильтр
+          </button>
+        </div>
+
+        <!-- 4. Borderless / Compact -->
+        <div class="p-6 text-center text-xs text-gray-400 flex flex-col items-center justify-center space-y-2">
+          <div class="text-3xl opacity-50 mb-1">📜</div>
+          <span class="font-semibold text-gray-300">История ревизий пуста</span>
+          <span class="text-[11px] text-gray-500 max-w-xs leading-relaxed">
+            Time Machine сохраняет снимки при каждом Ctrl+S.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SEARCH INPUT (НОВЫЙ КОМПОНЕНТ) -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="flex items-center justify-between border-b border-base-border pb-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>🔎</span>
+            <span>4. Умное поле поиска (SearchInput)</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">
+            Поле ввода со встроенной лупой, кнопкой быстрой очистки ✕, фокусными эффектами и отслеживанием событий.
+          </p>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-lg bg-black/25 text-gray-300 font-mono border border-base-border">SearchInput.tsx</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div class="space-y-4">
+          <!-- Interactive Search Input -->
+          <div class="relative flex items-center min-w-[240px]">
+            <span class="w-3.5 h-3.5 text-gray-400 absolute left-3 pointer-events-none shrink-0">🔍</span>
+            <input
+              id="showcase-search-input"
+              type="text"
+              placeholder="Поиск по названию или ID секрета..."
+              oninput="handleSearchInputChange(this)"
+              class="w-full bg-black/30 border border-base-border rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-accent transition-colors"
+            />
+            <button
+              id="showcase-search-clear"
+              type="button"
+              onclick="clearShowcaseSearch()"
+              class="hidden absolute right-2.5 p-1 rounded-md text-gray-400 hover:text-white hover:bg-black/20 text-xs transition cursor-pointer"
+              title="Очистить поиск"
+            >
+              ✕
+            </button>
+          </div>
+          <p class="text-[11px] text-gray-400">
+            Начните вводить текст выше: кнопка ✕ появится автоматически, а справа отобразятся события поиска.
+          </p>
+        </div>
+
+        <!-- Real-time Event Log -->
+        <div class="p-4 rounded-2xl bg-black/20 border border-base-border space-y-2 text-xs font-mono">
+          <div class="flex items-center justify-between text-[11px] text-gray-400 pb-1 border-b border-base-border/50">
+            <span>Статус поля:</span>
+            <span id="search-status-badge" class="px-2 py-0.2 rounded bg-black/30 text-gray-400">Пусто</span>
+          </div>
+          <div class="text-[11px]">Значение: <span id="search-val-display" class="text-accent font-bold">""</span></div>
+          <div class="text-[11px]">Длина: <span id="search-len-display" class="text-gray-300">0 символов</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. SECTION HEADER (НОВЫЙ КОМПОНЕНТ) -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="flex items-center justify-between border-b border-base-border pb-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>🏷️</span>
+            <span>5. Унифицированные шапки секций (SectionHeader)</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">
+            Заменил более 31 хардкодного заголовка в проекте. Стандартизирует uppercase, tracking-wider, бейджи и кнопки управления.
+          </p>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-lg bg-black/25 text-gray-300 font-mono border border-base-border">SectionHeader.tsx</span>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Variant 1: Title + Icon + Count Badge + Right Action -->
+        <div class="p-4 rounded-2xl bg-black/20 border border-base-border">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center space-x-2 min-w-0">
+              <span class="text-accent shrink-0">🔑</span>
+              <div class="min-w-0">
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs font-semibold text-gray-200 uppercase tracking-wider truncate">
+                    Учетные данные и секреты
+                  </span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 text-accent font-mono font-bold">
+                    8 активных
+                  </span>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-0.5 truncate">
+                  Windows Credential Manager / Защищенное локальное хранилище
+                </p>
+              </div>
+            </div>
+            <button onclick="showToast('Обновление списка...', 'info')" class="p-1.5 rounded-lg border border-base-border hover:bg-black/20 text-gray-300 text-xs transition cursor-pointer">
+              🔄 Обновить
+            </button>
+          </div>
+        </div>
+
+        <!-- Variant 2: Title + Toggle Switch as rightElement -->
+        <div class="p-4 rounded-2xl bg-black/20 border border-base-border">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center space-x-2 min-w-0">
+              <span class="text-emerald-400 shrink-0">🛡️</span>
+              <div class="min-w-0">
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs font-semibold text-gray-200 uppercase tracking-wider truncate">
+                    Structure Guard &amp; Pre-Save Guard
+                  </span>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-0.5 truncate">
+                  Глубокая валидация синтаксиса и AST перед физической записью файла
+                </p>
+              </div>
+            </div>
+            <button onclick="toggleSwitch(this)" data-checked="true" class="w-11 h-6 rounded-full bg-teal-500 p-0.5 transition flex items-center justify-end cursor-pointer">
+              <div class="w-5 h-5 rounded-full bg-slate-950 shadow-md"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. HORIZONTAL SCROLL AREA (КОЛЕСИКО МЫШИ БЕЗ SHIFT) -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="flex items-center justify-between border-b border-base-border pb-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>🖱️</span>
+            <span>6. Горизонтальный скролл на колесико мыши (ScrollArea)</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">
+            Наведите курсор на полосу категорий ниже и <strong class="text-white">просто крутите колесико мыши</strong> (без зажатия Shift). Работает нативное предотвращение вертикального рывка страницы.
+          </p>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-lg bg-black/25 text-gray-300 font-mono border border-base-border">ScrollArea.tsx</span>
+      </div>
+
+      <!-- Horizontal Pills Strip -->
+      <div class="space-y-2">
+        <label class="text-[11px] font-semibold uppercase tracking-wider text-gray-400 block">Лента категорий секретов:</label>
+        <div
+          id="horizontal-scroll-demo-1"
+          class="custom-scrollbar overflow-x-auto rounded-2xl bg-black/25 border border-base-border p-2"
+        >
+          <div class="flex items-center space-x-2 w-max">
+            <button class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-accent text-slate-950 shadow-sm cursor-pointer">
+              <span>📚</span><span>Все категории</span><span class="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-950/30 text-white font-mono">42</span>
+            </button>
+            <button class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white hover:bg-black/20 border border-base-border cursor-pointer">
+              <span>🔑</span><span>Пароли</span><span class="text-[10px] px-1.5 py-0.2 rounded-full bg-black/30 text-gray-400 font-mono">15</span>
+            </button>
+            <button class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white hover:bg-black/20 border border-base-border cursor-pointer">
+              <span>🛡️</span><span>SSH Ключи (RSA &amp; Ed25519)</span><span class="text-[10px] px-1.5 py-0.2 rounded-full bg-black/30 text-gray-400 font-mono">8</span>
+            </button>
+            <button class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white hover:bg-black/20 border border-base-border cursor-pointer">
+              <span>⚡</span><span>API Токены (OpenAI / Gemini / GitHub)</span><span class="text-[10px] px-1.5 py-0.2 rounded-full bg-black/30 text-gray-400 font-mono">11</span>
+            </button>
+            <button class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white hover:bg-black/20 border border-base-border cursor-pointer">
+              <span>📜</span><span>TLS / SSL Сертификаты</span><span class="text-[10px] px-1.5 py-0.2 rounded-full bg-black/30 text-gray-400 font-mono">4</span>
+            </button>
+            <button class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white hover:bg-black/20 border border-base-border cursor-pointer">
+              <span>🎚️</span><span>Переменные окружения (.env)</span><span class="text-[10px] px-1.5 py-0.2 rounded-full bg-black/30 text-gray-400 font-mono">18</span>
+            </button>
+            <button class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white hover:bg-black/20 border border-base-border cursor-pointer">
+              <span>🌐</span><span>Webhook URLs &amp; Discord / Telegram Bots</span><span class="text-[10px] px-1.5 py-0.2 rounded-full bg-black/30 text-gray-400 font-mono">6</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. DROPDOWNS & SELECTORS -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="flex items-center justify-between border-b border-base-border pb-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>🔽</span>
+            <span>7. Интерактивные выпадающие списки (Custom Dropdown)</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">Встроенный поиск, статусные точки, бейджи протоколов и защита от выпадения за экран (Auto-Flip)</p>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-lg bg-black/25 text-gray-300 font-mono border border-base-border">Select.tsx</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="space-y-2">
+          <label class="text-xs font-semibold text-gray-300 flex items-center space-x-1.5">
+            <span>🖥️</span><span>1. Выбор сервера флота (Fleet Selector)</span>
+          </label>
+          <div id="demo-dropdown-hosts" class="relative"></div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-xs font-semibold text-gray-300 flex items-center space-x-1.5">
+            <span>🔑</span><span>2. Выбор ключа авторизации (Core Vault)</span>
+          </label>
+          <div id="demo-dropdown-vault" class="relative"></div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-xs font-semibold text-gray-300 flex items-center space-x-1.5">
+            <span>📁</span><span>3. Компактный SFTP Селектор</span>
+          </label>
+          <div id="demo-dropdown-sftp" class="relative w-full"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. BUTTONS & SEGMENTED CONTROLS -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span>🔘</span>
+          <span>8. Кнопки и сегментированные группы (Buttons)</span>
+        </h2>
+        <p class="text-xs text-gray-400 mt-0.5">Primary, Secondary, Ghost, Danger и спиннеры загрузки</p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-center gap-3">
+          <button class="px-4 py-2 rounded-xl btn-accent font-semibold text-xs shadow-md transition cursor-pointer">
+            Primary Action
+          </button>
+          <button class="px-4 py-2 rounded-xl bg-black/30 hover:bg-black/50 text-gray-200 border border-base-border font-medium text-xs transition cursor-pointer">
+            Secondary
+          </button>
+          <button class="px-4 py-2 rounded-xl border border-base-border hover:bg-black/20 text-gray-300 font-medium text-xs transition cursor-pointer">
+            Outline
+          </button>
+          <button class="px-4 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 text-red-400 border border-red-500/30 font-semibold text-xs transition cursor-pointer">
+            Danger Action
+          </button>
+          <button class="px-4 py-2 rounded-xl btn-accent font-semibold text-xs flex items-center space-x-2 opacity-80 cursor-wait">
+            <span class="animate-spin text-sm">🔄</span>
+            <span>Загрузка...</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. TOGGLES & SWITCHES -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span>🎚️</span>
+          <span>9. Переключатели (Toggle Switch)</span>
+        </h2>
+        <p class="text-xs text-gray-400 mt-0.5">Плавные переключатели параметров с акцентной подсветкой</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-2xl bg-black/20 border border-base-border flex items-center justify-between">
+          <div>
+            <div class="text-xs font-semibold text-white">Автосохранение (Ctrl+S)</div>
+            <div class="text-[11px] text-gray-400 mt-0.5">Сохранять при потере фокуса</div>
+          </div>
+          <button onclick="toggleSwitch(this)" data-checked="true" class="w-11 h-6 rounded-full bg-teal-500 p-0.5 transition flex items-center justify-end cursor-pointer">
             <div class="w-5 h-5 rounded-full bg-slate-950 shadow-md"></div>
           </button>
         </div>
 
-        <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+        <div class="p-4 rounded-2xl bg-black/20 border border-base-border flex items-center justify-between">
           <div>
-            <div class="text-xs font-bold text-white">TLS / HTTPS верификация</div>
-            <div class="text-[11px] text-slate-400">Проверять валидность сертификата</div>
+            <div class="text-xs font-semibold text-white">Pre-Save Guard</div>
+            <div class="text-[11px] text-gray-400 mt-0.5">Блокировать синтаксические ошибки</div>
           </div>
-          <button onclick="toggleSwitch(this)" class="w-11 h-6 rounded-full bg-slate-800 p-0.5 transition flex items-center justify-start">
-            <div class="w-5 h-5 rounded-full bg-slate-400 shadow-md"></div>
+          <button onclick="toggleSwitch(this)" data-checked="true" class="w-11 h-6 rounded-full bg-teal-500 p-0.5 transition flex items-center justify-end cursor-pointer">
+            <div class="w-5 h-5 rounded-full bg-slate-950 shadow-md"></div>
           </button>
         </div>
 
-        <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-center justify-between opacity-50 cursor-not-allowed">
+        <div class="p-4 rounded-2xl bg-black/20 border border-base-border flex items-center justify-between">
           <div>
-            <div class="text-xs font-bold text-white">Канареечный режим (Canary)</div>
-            <div class="text-[11px] text-slate-400">Требует лицензию Enterprise</div>
+            <div class="text-xs font-semibold text-white">Скрытые файлы (.git)</div>
+            <div class="text-[11px] text-gray-400 mt-0.5">Отображать в проводнике</div>
           </div>
-          <div class="w-11 h-6 rounded-full bg-slate-800 p-0.5 flex items-center justify-start">
-            <div class="w-5 h-5 rounded-full bg-slate-600"></div>
-          </div>
+          <button onclick="toggleSwitch(this)" data-checked="false" class="w-11 h-6 rounded-full bg-black/40 p-0.5 transition flex items-center justify-start border border-base-border cursor-pointer">
+            <div class="w-5 h-5 rounded-full bg-gray-400 shadow-md"></div>
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- 5. Form Grids & Inputs -->
-    <section class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6">
-      <div class="border-b border-slate-800 pb-4">
+    <!-- 10. FORM GRIDS & INPUTS -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4">
         <h2 class="text-lg font-bold text-white flex items-center gap-2">
           <span>📝</span>
-          <span>5. Сетки форм и поля ввода (Inputs & Form Grids)</span>
+          <span>10. Сетки форм и поля ввода (Inputs &amp; Form Grids)</span>
         </h2>
-        <p class="text-xs text-slate-400 mt-0.5">Компактная двухколоночная сетка 2fr 1fr, защищающая модальные окна от лишней высоты</p>
+        <p class="text-xs text-gray-400 mt-0.5">Компактная двухколоночная сетка 2fr:1fr для модальных окон</p>
       </div>
 
       <div class="space-y-4 max-w-2xl">
         <div class="form-grid-2-1">
           <div class="space-y-1">
-            <label class="block text-xs font-semibold text-slate-400">Хост / IP адрес</label>
-            <input type="text" value="192.168.0.110" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-teal-400 transition" />
+            <label class="text-[11px] font-semibold text-gray-300">Хост или IP адрес</label>
+            <input type="text" value="192.168.0.110" class="w-full px-3 py-2 rounded-xl bg-black/25 border border-base-border text-xs text-white focus:outline-none focus:border-accent" />
           </div>
           <div class="space-y-1">
-            <label class="block text-xs font-semibold text-slate-400">SSH Порт</label>
-            <input type="number" value="22" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-teal-400 transition" />
+            <label class="text-[11px] font-semibold text-gray-300">Порт SSH</label>
+            <input type="number" value="22" class="w-full px-3 py-2 rounded-xl bg-black/25 border border-base-border text-xs text-white focus:outline-none focus:border-accent" />
           </div>
-        </div>
-
-        <div class="space-y-1">
-          <label class="block text-xs font-semibold text-slate-400">Имя пользователя</label>
-          <input type="text" value="root" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-teal-400 transition" />
         </div>
       </div>
     </section>
 
-    <!-- 6. SysInfo Status Bar Indicator -->
-    <section class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-          <span>📊</span>
-          <span>6. Телеметрия и системная строка (SysInfoBar)</span>
-        </h2>
-        <p class="text-xs text-slate-400 mt-0.5">Индикатор нагрузки CPU, RAM, диска и аптайма прямо в статус-баре редактора</p>
-      </div>
-
-      <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-        <div class="flex items-center space-x-4 text-xs font-mono">
-          <div class="flex items-center space-x-1.5">
-            <span class="text-slate-500">CPU:</span>
-            <span class="text-emerald-400 font-bold">14%</span>
-            <div class="w-12 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-              <div class="w-[14%] h-full bg-emerald-400 rounded-full"></div>
-            </div>
-          </div>
-
-          <div class="flex items-center space-x-1.5">
-            <span class="text-slate-500">RAM:</span>
-            <span class="text-amber-400 font-bold">58%</span>
-            <div class="w-12 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-              <div class="w-[58%] h-full bg-amber-400 rounded-full"></div>
-            </div>
-          </div>
-
-          <div class="flex items-center space-x-1.5">
-            <span class="text-slate-500">Диск:</span>
-            <span class="text-sky-400 font-bold">78 ГБ своб.</span>
-          </div>
-
-          <div class="flex items-center space-x-1.5 text-slate-400">
-            <span>⏱️ 4д 18ч</span>
-          </div>
-        </div>
-
-        <button onclick="showToast('Подробная телеметрия узла debian: CPU 4 core, 8GB RAM, Uptime 114h')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-medium transition">
-          Инфо
-        </button>
-      </div>
-    </section>
-
-    <!-- 7. Badges & Status Dots -->
-    <section class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6">
-      <div class="border-b border-slate-800 pb-4">
+    <!-- 11. BADGES & STATUS INDICATORS -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4">
         <h2 class="text-lg font-bold text-white flex items-center gap-2">
           <span>🏷️</span>
-          <span>7. Бейджи и статусные индикаторы (Badges & Dots)</span>
+          <span>11. Бейджи и статусные индикаторы (Badges &amp; Dots)</span>
         </h2>
-        <p class="text-xs text-slate-400 mt-0.5">Цветовая палитра протоколов и живые статусные индикаторы</p>
+        <p class="text-xs text-gray-400 mt-0.5">Палитра бейджей протоколов и живые статусные индикаторы</p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-3 text-xs">
-        <span class="px-2.5 py-1 rounded-lg bg-teal-500/15 text-teal-300 border border-teal-500/30 font-mono">AGENT + SSH</span>
-        <span class="px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-400 border border-sky-500/30 font-mono">SSH</span>
-        <span class="px-2.5 py-1 rounded-lg bg-purple-500/15 text-purple-400 border border-purple-500/30 font-mono">TOKEN</span>
-        <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono">PASSWORD</span>
-        <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 border border-amber-500/30 font-mono">CANARY</span>
-        <span class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/30 font-mono">OFFLINE</span>
-
-        <div class="flex items-center space-x-2 pl-4 border-l border-slate-800">
-          <div class="flex items-center space-x-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span class="text-slate-400 text-xs">В сети</span></div>
-          <div class="flex items-center space-x-1.5"><span class="w-2 h-2 rounded-full bg-amber-400"></span> <span class="text-slate-400 text-xs">Ожидание</span></div>
-          <div class="flex items-center space-x-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> <span class="text-slate-400 text-xs">Ошибка</span></div>
-        </div>
+      <div class="flex flex-wrap items-center gap-2.5">
+        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-accent/15 text-accent border border-accent/30">
+          ● ONLINE
+        </span>
+        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+          SSH READY
+        </span>
+        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-sky-500/15 text-sky-400 border border-sky-500/30">
+          REMOTE AGENT
+        </span>
+        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-purple-500/15 text-purple-400 border border-purple-500/30">
+          API TOKEN
+        </span>
+        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+          CANARY v2.1
+        </span>
+        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-red-500/15 text-red-400 border border-red-500/30">
+          BLOCKED (422)
+        </span>
       </div>
     </section>
 
-    <!-- 8. Interactive Toasts -->
-    <section class="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6">
-      <div class="border-b border-slate-800 pb-4">
+    <!-- 12. TOAST NOTIFICATIONS -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4">
         <h2 class="text-lg font-bold text-white flex items-center gap-2">
           <span>🔔</span>
-          <span>8. Всплывающие уведомления (Toast Notifications)</span>
+          <span>12. Всплывающие уведомления (Toast Notifications)</span>
         </h2>
-        <p class="text-xs text-slate-400 mt-0.5">Всплывающие уведомления в нижнем углу экрана</p>
+        <p class="text-xs text-gray-400 mt-0.5">Всплывающие уведомления в нижнем углу экрана</p>
       </div>
 
       <div class="flex flex-wrap gap-3">
-        <button onclick="showToast('✓ Сервер успешно подключен к флоту', 'success')" class="px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-xs font-semibold transition">
+        <button onclick="showToast('✓ Сервер успешно подключен к флоту', 'success')" class="px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-xs font-semibold transition cursor-pointer">
           Успех (Success)
         </button>
-        <button onclick="showToast('⚠️ Ошибка подключения по SSH: Connection refused', 'error')" class="px-3.5 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-semibold transition">
+        <button onclick="showToast('⚠️ Ошибка соединения с хостом: Connection refused', 'error')" class="px-3.5 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 text-red-300 border border-red-500/30 text-xs font-semibold transition cursor-pointer">
           Ошибка (Error)
         </button>
-        <button onclick="showToast('ℹ️ Запущено автообнаружение агентов в локальной сети...', 'info')" class="px-3.5 py-2 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/30 text-xs font-semibold transition">
+        <button onclick="showToast('ℹ️ Фоновое автосохранение выполнено', 'info')" class="px-3.5 py-2 rounded-xl bg-accent/15 hover:bg-accent/25 text-accent border border-accent/30 text-xs font-semibold transition cursor-pointer">
           Инфо (Info)
         </button>
       </div>
@@ -474,283 +917,511 @@
 
   </main>
 
-  <!-- Interactive Demo Modal Container -->
-  <div id="demo-modal-overlay" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 hidden animate-in fade-in duration-150">
-    <div id="demo-modal-box" class="bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden">
-      <!-- Injected by openDemoModal -->
+  <!-- Interactive Dynamic Modal Overlay -->
+  <div id="demo-modal-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 hidden flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-150">
+    <div id="demo-modal-box" class="bg-base-surface border border-base-border rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-200">
+      <!-- Injected via JavaScript based on size -->
     </div>
   </div>
 
-  <!-- Toast Container -->
-  <div id="toast-box" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  <!-- Interactive ConfirmModal Overlay -->
+  <div id="confirm-modal-overlay" class="fixed inset-0 bg-black/75 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4 animate-in fade-in duration-150">
+    <div id="confirm-modal-box" class="bg-base-surface border border-base-border rounded-2xl shadow-2xl max-w-sm w-full p-5 space-y-4">
+      <div class="flex items-start space-x-3.5">
+        <div id="confirm-icon-box" class="p-2 rounded-xl shrink-0"></div>
+        <div class="space-y-1 min-w-0">
+          <h4 id="confirm-title" class="font-bold text-sm text-white"></h4>
+          <p id="confirm-message" class="text-xs text-gray-300 leading-relaxed"></p>
+        </div>
+      </div>
+      <div class="flex items-center justify-end space-x-2 pt-2 border-t border-base-border">
+        <button onclick="closeConfirmDemo()" class="px-3.5 py-1.5 rounded-xl border border-base-border hover:bg-black/20 text-gray-300 text-xs font-medium cursor-pointer">
+          Отмена
+        </button>
+        <button id="confirm-action-btn" class="px-4 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts Container -->
+  <div id="toast-box" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-800/80 bg-slate-950 py-8 text-xs text-slate-500 mt-12">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center space-x-2">
-        <span>🎨</span>
-        <span class="text-slate-400 font-medium">@config-studio/ui Design System</span>
-        <span>•</span>
-        <span>ROADMAP v1.9.7 Canonical Implementation</span>
-      </div>
-      <div class="flex items-center space-x-4">
-        <a href="index.html" class="text-teal-400 hover:underline">Каталог плагинов</a>
-        <a href="https://github.com/config-studio/config-studio" target="_blank" class="text-slate-400 hover:text-white">GitHub Репозиторий</a>
-      </div>
+  <footer class="border-t border-base-border bg-base-surface/50 py-6 mt-12 text-center text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4">
+      Config Studio Design System Showcase • Синхронизировано с <code class="text-accent font-mono">@config-studio/ui</code> (React + Tailwind)
     </div>
   </footer>
 
   <script>
-    function setThemeAccent(hex, rgb) {
-      document.documentElement.style.setProperty('--accent', hex);
-      document.documentElement.style.setProperty('--accent-rgb', rgb);
-      showToast(`Акцент темы изменен на ${hex}`, 'info');
-    }
+    // PRESET PALETTES (IDENTICAL TO config-studio/web/src/components/settings/types.ts)
+    const PRESET_BASE_COLORS = [
+      { name: 'Dark Slate', hex: '#161b22' },
+      { name: 'Deep Charcoal', hex: '#121212' },
+      { name: 'Navy Midnight', hex: '#0f172a' },
+      { name: 'Material Dark', hex: '#1e1e2e' },
+      { name: 'Pure Black', hex: '#000000' },
+      { name: 'Light Surface', hex: '#f8fafc' },
+    ];
 
-    function toggleSwitch(btn) {
-      const isChecked = btn.getAttribute('data-checked') === 'true';
-      if (isChecked) {
-        btn.setAttribute('data-checked', 'false');
-        btn.className = 'w-11 h-6 rounded-full bg-slate-800 p-0.5 transition flex items-center justify-start';
-        btn.querySelector('div').className = 'w-5 h-5 rounded-full bg-slate-400 shadow-md';
-      } else {
-        btn.setAttribute('data-checked', 'true');
-        btn.className = 'w-11 h-6 rounded-full bg-teal-500 p-0.5 transition flex items-center justify-end';
-        btn.querySelector('div').className = 'w-5 h-5 rounded-full bg-slate-950 shadow-md';
+    const PRESET_ACCENT_COLORS = [
+      { name: 'Teal (Default)', hex: '#00d2b4' },
+      { name: 'Cyan Neon', hex: '#06b6d4' },
+      { name: 'Emerald', hex: '#10b981' },
+      { name: 'Indigo Dream', hex: '#6366f1' },
+      { name: 'Violet', hex: '#8b5cf6' },
+      { name: 'Rose', hex: '#f43f5e' },
+      { name: 'Amber Gold', hex: '#f59e0b' },
+      { name: 'Orange Fire', hex: '#f97316' },
+    ];
+
+    // COLOR UTILS (IDENTICAL TO config-studio/web/src/utils/color.ts)
+    function hexToRgb(hex) {
+      let clean = hex.replace('#', '');
+      if (clean.length === 3) {
+        clean = clean.split('').map(c => c + c).join('');
       }
+      const num = parseInt(clean, 16);
+      if (isNaN(num)) return [22, 27, 34];
+      return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
     }
 
+    function getLuminance(hex) {
+      const [r, g, b] = hexToRgb(hex);
+      return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    }
+
+    function adjustBrightness(hex, percent) {
+      const [r, g, b] = hexToRgb(hex);
+      const factor = percent / 100;
+      const newR = Math.min(255, Math.max(0, Math.round(r + 255 * factor)));
+      const newG = Math.min(255, Math.max(0, Math.round(g + 255 * factor)));
+      const newB = Math.min(255, Math.max(0, Math.round(b + 255 * factor)));
+      return `#${((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1)}`;
+    }
+
+    // STATE
+    let currentThemeMode = localStorage.getItem('cs_theme_mode') || 'dark';
+    let currentBaseColor = localStorage.getItem('cs_base_color') || '#161b22';
+    let currentAccentColor = localStorage.getItem('cs_accent_color') || '#00d2b4';
+
+    function applyTheme() {
+      const base = currentBaseColor || '#161b22';
+      const isBaseLight = getLuminance(base) > 0.55;
+      const isDark = currentThemeMode === 'dark' && !isBaseLight;
+
+      let surface, surfaceHover, border;
+
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        surface = adjustBrightness(base, 6);
+        surfaceHover = adjustBrightness(base, 14);
+        border = adjustBrightness(base, 20);
+
+        document.documentElement.style.setProperty('--color-base', base);
+        document.documentElement.style.setProperty('--color-surface', surface);
+        document.documentElement.style.setProperty('--color-surface-hover', surfaceHover);
+        document.documentElement.style.setProperty('--color-border', border);
+        document.body.style.backgroundColor = base;
+        document.body.style.color = '#e2e8f0';
+
+        document.getElementById('theme-mode-icon').textContent = '🌙';
+        document.getElementById('theme-mode-text').textContent = 'Тёмная';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        const lightBase = isBaseLight ? base : '#f8fafc';
+        surface = isBaseLight ? adjustBrightness(base, -4) : '#ffffff';
+        surfaceHover = isBaseLight ? adjustBrightness(base, -8) : '#f1f5f9';
+        border = isBaseLight ? adjustBrightness(base, -14) : '#e2e8f0';
+
+        document.documentElement.style.setProperty('--color-base', lightBase);
+        document.documentElement.style.setProperty('--color-surface', surface);
+        document.documentElement.style.setProperty('--color-surface-hover', surfaceHover);
+        document.documentElement.style.setProperty('--color-border', border);
+        document.body.style.backgroundColor = lightBase;
+        document.body.style.color = '#0f172a';
+
+        document.getElementById('theme-mode-icon').textContent = '☀️';
+        document.getElementById('theme-mode-text').textContent = 'Светлая';
+      }
+
+      // Accent color
+      const accent = currentAccentColor || '#00d2b4';
+      const [ar, ag, ab] = hexToRgb(accent);
+      const accentHover = adjustBrightness(accent, -10);
+
+      document.documentElement.style.setProperty('--color-accent', accent);
+      document.documentElement.style.setProperty('--color-accent-hover', accentHover);
+      document.documentElement.style.setProperty('--accent-rgb', `${ar}, ${ag}, ${ab}`);
+
+      // Update header indicators
+      document.getElementById('header-base-indicator').style.backgroundColor = base;
+      document.getElementById('header-accent-indicator').style.backgroundColor = accent;
+      document.getElementById('header-custom-base').value = base;
+      document.getElementById('header-custom-accent').value = accent;
+
+      // Update section displays
+      document.getElementById('current-base-hex').textContent = base;
+      document.getElementById('current-accent-hex').textContent = accent;
+      document.getElementById('section-custom-base').value = base;
+      document.getElementById('section-custom-base-text').value = base;
+      document.getElementById('section-custom-accent').value = accent;
+      document.getElementById('section-custom-accent-text').value = accent;
+
+      // Update token palette strip
+      document.getElementById('token-base-val').textContent = base;
+      document.getElementById('token-surface-val').textContent = surface;
+      document.getElementById('token-hover-val').textContent = surfaceHover;
+      document.getElementById('token-border-val').textContent = border;
+      document.getElementById('token-accent-val').textContent = accent;
+
+      // Persist
+      localStorage.setItem('cs_theme_mode', currentThemeMode);
+      localStorage.setItem('cs_base_color', currentBaseColor);
+      localStorage.setItem('cs_accent_color', currentAccentColor);
+
+      // Render preset chips active state
+      renderPresetChips();
+    }
+
+    function toggleThemeMode() {
+      currentThemeMode = currentThemeMode === 'dark' ? 'light' : 'dark';
+      applyTheme();
+      showToast(`Режим переключен: ${currentThemeMode === 'dark' ? 'Тёмная тема' : 'Светлая тема'}`, 'info');
+    }
+
+    function setBaseColor(hex) {
+      if (!hex || !hex.startsWith('#')) return;
+      currentBaseColor = hex;
+      applyTheme();
+      showToast(`Основной цвет изменен на ${hex}`, 'info');
+    }
+
+    function setAccentColor(hex) {
+      if (!hex || !hex.startsWith('#')) return;
+      currentAccentColor = hex;
+      applyTheme();
+      showToast(`Акцентный цвет изменен на ${hex}`, 'info');
+    }
+
+    function resetTheme() {
+      currentThemeMode = 'dark';
+      currentBaseColor = '#161b22';
+      currentAccentColor = '#00d2b4';
+      applyTheme();
+      showToast('Тема сброшена к настройкам по умолчанию', 'success');
+    }
+
+    function renderPresetChips() {
+      // Header Base Presets
+      const hb = document.getElementById('header-base-presets');
+      hb.innerHTML = PRESET_BASE_COLORS.map(p => `
+        <button onclick="setBaseColor('${p.hex}')" class="w-full flex items-center justify-between p-1.5 rounded-lg hover:bg-black/20 text-xs transition cursor-pointer ${currentBaseColor.toLowerCase() === p.hex.toLowerCase() ? 'bg-black/30 font-bold text-accent' : 'text-gray-300'}">
+          <div class="flex items-center space-x-2">
+            <span class="w-3.5 h-3.5 rounded-full border border-gray-400/30" style="background-color: ${p.hex}"></span>
+            <span>${p.name}</span>
+          </div>
+          <span class="font-mono text-[10px] text-gray-500">${p.hex}</span>
+        </button>
+      `).join('');
+
+      // Header Accent Presets
+      const ha = document.getElementById('header-accent-presets');
+      ha.innerHTML = PRESET_ACCENT_COLORS.map(p => `
+        <button onclick="setAccentColor('${p.hex}')" class="w-full flex items-center justify-between p-1.5 rounded-lg hover:bg-black/20 text-xs transition cursor-pointer ${currentAccentColor.toLowerCase() === p.hex.toLowerCase() ? 'bg-black/30 font-bold text-accent' : 'text-gray-300'}">
+          <div class="flex items-center space-x-2">
+            <span class="w-3.5 h-3.5 rounded-full border border-gray-400/30" style="background-color: ${p.hex}"></span>
+            <span>${p.name}</span>
+          </div>
+          <span class="font-mono text-[10px] text-gray-500">${p.hex}</span>
+        </button>
+      `).join('');
+
+      // Section Base Presets
+      const sb = document.getElementById('section-base-presets');
+      sb.innerHTML = PRESET_BASE_COLORS.map(p => `
+        <button
+          onclick="setBaseColor('${p.hex}')"
+          class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs border transition cursor-pointer ${currentBaseColor.toLowerCase() === p.hex.toLowerCase() ? 'border-accent text-accent font-semibold bg-accent/10 shadow-xs' : 'border-base-border text-gray-400 hover:text-white hover:bg-black/20'}"
+        >
+          <span class="w-3 h-3 rounded-full border border-gray-400/30" style="background-color: ${p.hex}"></span>
+          <span>${p.name}</span>
+        </button>
+      `).join('');
+
+      // Section Accent Presets
+      const sa = document.getElementById('section-accent-presets');
+      sa.innerHTML = PRESET_ACCENT_COLORS.map(p => `
+        <button
+          onclick="setAccentColor('${p.hex}')"
+          class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs border transition cursor-pointer ${currentAccentColor.toLowerCase() === p.hex.toLowerCase() ? 'border-accent text-accent font-semibold bg-accent/10 shadow-xs' : 'border-base-border text-gray-400 hover:text-white hover:bg-black/20'}"
+        >
+          <span class="w-3 h-3 rounded-full border border-gray-400/30" style="background-color: ${p.hex}"></span>
+          <span>${p.name}</span>
+        </button>
+      `).join('');
+    }
+
+    // DROPDOWN MENUS (HEADER)
+    function toggleBaseDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('header-base-menu');
+      menu.classList.toggle('hidden');
+      document.getElementById('header-accent-menu').classList.add('hidden');
+    }
+
+    function toggleAccentDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('header-accent-menu');
+      menu.classList.toggle('hidden');
+      document.getElementById('header-base-menu').classList.add('hidden');
+    }
+
+    document.addEventListener('click', () => {
+      document.getElementById('header-base-menu')?.classList.add('hidden');
+      document.getElementById('header-accent-menu')?.classList.add('hidden');
+    });
+
+    // 20% STEP MODAL SYSTEM WITH DYNAMIC MAXIMIZE / RESTORE
+    let activeModalOriginalSize = 'xxl';
+    let isModalMaximized = false;
+
+    function openShowcaseModal(size) {
+      activeModalOriginalSize = size;
+      isModalMaximized = size === 'fullscreen';
+
+      const allowMaximize = document.getElementById('allow-maximize-toggle').checked;
+      const overlay = document.getElementById('demo-modal-overlay');
+      const box = document.getElementById('demo-modal-box');
+
+      const sizeClass = isModalMaximized ? 'modal-fullscreen' : `modal-${size}`;
+      box.className = `bg-base-surface border border-base-border rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-200 ${sizeClass}`;
+
+      const titles = {
+        sm: { title: 'Подтверждение операции (sm: 24vw)', icon: '🔒', badge: 'MIN 360PX', desc: 'Компактное окно для ввода пароля, пин-кода или опасных действий.' },
+        md: { title: 'Добавить рабочую папку в проект (md: 32vw)', icon: '📁', badge: 'MIN 420PX', desc: 'Подключение системного каталога хоста в Multi-Root Workspace.' },
+        lg: { title: 'Свойства файла & Time Machine (lg: 45vw)', icon: '📜', badge: 'MIN 500×400', desc: 'Инспектор метаданных, ревизии и снимок истории.' },
+        xl: { title: 'Конфигуратор и Diff-сравнение ревизий (xl: 60vw)', icon: '⚡', badge: '20% ПОЛЯ', desc: 'Параллельное сравнение версий конфигурации.' },
+        xxl: { title: 'Параметры и настройки Config Studio (xxl: 80vw)', icon: '⚙️', badge: '10% ПОЛЯ', desc: 'Эталонное окно настроек с 10% отступом со всех 4 сторон.' },
+        fullscreen: { title: 'Полноэкранный терминал / Fullscreen Mode (100vw×100vh)', icon: '💻', badge: 'FULLSCREEN', desc: 'Полный охват экрана без рамок.' }
+      };
+
+      const meta = titles[size] || titles.xxl;
+
+      box.innerHTML = `
+        <!-- Modal Header with Maximize Toggle -->
+        <div class="px-5 py-4 border-b border-base-border flex items-center justify-between bg-black/10 shrink-0">
+          <div class="flex items-center space-x-3 min-w-0">
+            <span class="text-lg shrink-0">${meta.icon}</span>
+            <div class="min-w-0">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-sm text-white truncate">${meta.title}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 text-accent font-mono font-bold shrink-0">${meta.badge}</span>
+              </div>
+              <p class="text-[11px] text-gray-400 truncate mt-0.5">${meta.desc}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-1.5 shrink-0 ml-3">
+            ${allowMaximize && size !== 'fullscreen' ? `
+              <button
+                onclick="toggleModalMaximize()"
+                class="p-1.5 rounded-xl hover:bg-black/20 text-gray-400 hover:text-white transition cursor-pointer"
+                title="${isModalMaximized ? 'Восстановить исходный размер' : 'Развернуть на весь экран'}"
+              >
+                <span id="modal-max-icon">${isModalMaximized ? '🗗' : '🗖'}</span>
+              </button>
+            ` : ''}
+            <button
+              onclick="closeShowcaseModal()"
+              class="p-1.5 rounded-xl hover:bg-black/20 text-gray-400 hover:text-white transition cursor-pointer"
+              title="Закрыть (Esc)"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <!-- Modal Body with Zero-Jitter Content -->
+        <div class="flex-1 p-6 overflow-y-auto custom-scrollbar space-y-4 text-xs">
+          <div class="p-4 rounded-2xl bg-black/20 border border-base-border space-y-2">
+            <span class="font-semibold text-gray-200 text-xs block">Геометрия и пропорции окна:</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono text-gray-300">
+              <div class="p-2 bg-black/30 rounded-lg">Класс: <strong class="text-accent">${sizeClass}</strong></div>
+              <div class="p-2 bg-black/30 rounded-lg">Размер: <strong class="text-white">${size.toUpperCase()}</strong></div>
+              <div class="p-2 bg-black/30 rounded-lg">allowMaximize: <strong class="text-emerald-400">${allowMaximize}</strong></div>
+              <div class="p-2 bg-black/30 rounded-lg">Maximized: <strong id="modal-max-status" class="text-white">${isModalMaximized}</strong></div>
+            </div>
+          </div>
+
+          <div class="form-grid-2-1">
+            <div class="space-y-1">
+              <label class="text-[11px] font-semibold text-gray-400">Название конфигурации / Рабочей области</label>
+              <input type="text" value="production-traefik-cluster" class="w-full px-3 py-2 rounded-xl bg-black/25 border border-base-border text-xs text-white focus:outline-none focus:border-accent" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-[11px] font-semibold text-gray-400">Окружение (Env)</label>
+              <select class="w-full px-3 py-2 rounded-xl bg-black/25 border border-base-border text-xs text-white focus:outline-none focus:border-accent">
+                <option>Production (prod)</option>
+                <option>Staging (stg)</option>
+                <option>Development (dev)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[11px] font-semibold text-gray-400">Описание / Заметки</label>
+            <textarea rows="3" class="w-full p-3 rounded-xl bg-black/25 border border-base-border text-xs text-white focus:outline-none focus:border-accent font-mono">cluster_id: traefik-v3-edge&#10;health_check: https://lb.internal:8080/ping&#10;guard_mode: strict</textarea>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="p-4 border-t border-base-border flex items-center justify-between bg-black/10 shrink-0 text-xs">
+          <span class="text-gray-400 text-[11px]">Нажмите Esc или кликните вне окна для закрытия</span>
+          <div class="flex items-center space-x-2">
+            <button onclick="closeShowcaseModal()" class="px-3.5 py-1.5 rounded-xl border border-base-border hover:bg-black/20 text-gray-300 font-medium cursor-pointer">
+              Отмена
+            </button>
+            <button onclick="closeShowcaseModal(); showToast('Параметры успешно сохранены', 'success')" class="px-4 py-1.5 rounded-xl btn-accent font-semibold shadow-sm cursor-pointer">
+              Сохранить изменения
+            </button>
+          </div>
+        </div>
+      `;
+
+      overlay.classList.remove('hidden');
+    }
+
+    function toggleModalMaximize() {
+      isModalMaximized = !isModalMaximized;
+      const box = document.getElementById('demo-modal-box');
+      const targetClass = isModalMaximized ? 'modal-fullscreen' : `modal-${activeModalOriginalSize}`;
+      box.className = `bg-base-surface border border-base-border rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-200 ${targetClass}`;
+      document.getElementById('modal-max-icon').textContent = isModalMaximized ? '🗗' : '🗖';
+      document.getElementById('modal-max-status').textContent = String(isModalMaximized);
+      showToast(isModalMaximized ? 'Окно развернуто на весь экран' : `Окно восстановлено в размер ${activeModalOriginalSize.toUpperCase()}`, 'info');
+    }
+
+    function closeShowcaseModal() {
+      document.getElementById('demo-modal-overlay').classList.add('hidden');
+    }
+
+    document.getElementById('demo-modal-overlay').addEventListener('click', (e) => {
+      if (e.target.id === 'demo-modal-overlay') closeShowcaseModal();
+    });
+
+    // CONFIRM MODAL DEMO
+    function openConfirmDemo(variant, title, message, confirmText) {
+      const overlay = document.getElementById('confirm-modal-overlay');
+      const iconBox = document.getElementById('confirm-icon-box');
+      const actionBtn = document.getElementById('confirm-action-btn');
+
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+
+      if (variant === 'danger') {
+        iconBox.className = 'p-2 rounded-xl bg-red-500/15 border border-red-500/30 text-red-400 shrink-0 text-lg';
+        iconBox.textContent = '🗑️';
+        actionBtn.className = 'px-4 py-1.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-xs shadow-sm transition cursor-pointer';
+      } else if (variant === 'warning') {
+        iconBox.className = 'p-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 shrink-0 text-lg';
+        iconBox.textContent = '⚠️';
+        actionBtn.className = 'px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow-sm transition cursor-pointer';
+      } else {
+        iconBox.className = 'p-2 rounded-xl bg-accent/15 border border-accent/30 text-accent shrink-0 text-lg';
+        iconBox.textContent = '❓';
+        actionBtn.className = 'px-4 py-1.5 rounded-xl btn-accent font-semibold text-xs shadow-sm transition cursor-pointer';
+      }
+
+      actionBtn.textContent = confirmText;
+      actionBtn.onclick = () => {
+        actionBtn.innerHTML = '<span class="animate-spin inline-block mr-1">🔄</span> Выполнение...';
+        setTimeout(() => {
+          closeConfirmDemo();
+          showToast(`Действие «${title}» подтверждено!`, variant === 'danger' ? 'error' : 'success');
+        }, 600);
+      };
+
+      overlay.classList.remove('hidden');
+    }
+
+    function closeConfirmDemo() {
+      document.getElementById('confirm-modal-overlay').classList.add('hidden');
+    }
+
+    document.getElementById('confirm-modal-overlay').addEventListener('click', (e) => {
+      if (e.target.id === 'confirm-modal-overlay') closeConfirmDemo();
+    });
+
+    // SEARCH INPUT HANDLER
+    function handleSearchInputChange(input) {
+      const clearBtn = document.getElementById('showcase-search-clear');
+      const val = input.value;
+      if (val.length > 0) {
+        clearBtn.classList.remove('hidden');
+        document.getElementById('search-status-badge').textContent = 'Ввод текста';
+        document.getElementById('search-status-badge').className = 'px-2 py-0.2 rounded bg-accent/15 text-accent font-semibold';
+      } else {
+        clearBtn.classList.add('hidden');
+        document.getElementById('search-status-badge').textContent = 'Пусто';
+        document.getElementById('search-status-badge').className = 'px-2 py-0.2 rounded bg-black/30 text-gray-400';
+      }
+      document.getElementById('search-val-display').textContent = `"${val}"`;
+      document.getElementById('search-len-display').textContent = `${val.length} символов`;
+    }
+
+    function clearShowcaseSearch() {
+      const input = document.getElementById('showcase-search-input');
+      input.value = '';
+      handleSearchInputChange(input);
+      input.focus();
+      showToast('Поле поиска очищено', 'info');
+    }
+
+    // HORIZONTAL SCROLL WHEEL HANDLER (WHEEL -> SCROLLLEFT WITH PREVENTDEFAULT)
+    function setupHorizontalWheelScroll(elId) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      el.addEventListener('wheel', (e) => {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          el.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
+    }
+
+    // TOAST SYSTEM
     function showToast(text, type = 'info') {
       const box = document.getElementById('toast-box');
       const toast = document.createElement('div');
       const colors = {
-        success: 'bg-emerald-950 border-emerald-500/40 text-emerald-300',
-        error: 'bg-rose-950 border-rose-500/40 text-rose-300',
-        info: 'bg-slate-900 border-teal-500/40 text-teal-300'
+        success: 'bg-emerald-950/90 border-emerald-500/40 text-emerald-300',
+        error: 'bg-rose-950/90 border-rose-500/40 text-rose-300',
+        info: 'bg-base-surface border-accent/40 text-accent'
       };
-      toast.className = `px-4 py-2.5 rounded-2xl border ${colors[type] || colors.info} text-xs font-semibold shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2 duration-150 pointer-events-auto`;
+      toast.className = `px-4 py-2.5 rounded-2xl border ${colors[type] || colors.info} text-xs font-semibold shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2 duration-150 pointer-events-auto backdrop-blur-md`;
       toast.innerHTML = `<span>⚡</span><span>${escapeHtml(text)}</span>`;
       box.appendChild(toast);
       setTimeout(() => toast.remove(), 2800);
     }
 
-    // Modal Demos
-    function openDemoModal(size) {
-      const overlay = document.getElementById('demo-modal-overlay');
-      const box = document.getElementById('demo-modal-box');
-      overlay.classList.remove('hidden');
-
-      if (size === 'sm') {
-        box.className = 'bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden modal-sm';
-        box.innerHTML = `
-          <div class="p-5 border-b border-slate-800 flex items-center justify-between">
-            <h3 class="font-bold text-white text-sm">Удаление узла из флота</h3>
-            <button onclick="closeDemoModal()" class="text-slate-400 hover:text-white">✕</button>
-          </div>
-          <div class="p-5 text-xs text-slate-300 space-y-2">
-            <p>Вы уверены, что хотите удалить узел <b>alpine-01 (192.168.0.161)</b> из <code class="text-teal-400">servers.yaml</code>?</p>
-            <p class="text-slate-500 text-[11px]">Это действие не затронет данные на самом сервере.</p>
-          </div>
-          <div class="p-4 bg-slate-950 border-t border-slate-800 flex justify-end gap-2 text-xs">
-            <button onclick="closeDemoModal()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300">Отмена</button>
-            <button onclick="closeDemoModal(); showToast('Узел удален', 'error');" class="px-3.5 py-1.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30">Удалить</button>
-          </div>
-        `;
-      } else if (size === 'md') {
-        box.className = 'bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden modal-md';
-        box.innerHTML = `
-          <div class="p-5 border-b border-slate-800 flex items-center justify-between">
-            <h3 class="font-bold text-white text-sm flex items-center gap-2"><span>📤</span> <span>Отправить файл на узел флота</span></h3>
-            <button onclick="closeDemoModal()" class="text-slate-400 hover:text-white">✕</button>
-          </div>
-          <div class="p-5 text-xs text-slate-300 space-y-4">
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold text-[11px]">Файл для отправки</label>
-              <input type="text" value="config.yaml" readonly class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-400" />
-            </div>
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold text-[11px]">Целевой узел назначения</label>
-              <select class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white">
-                <option>debian (root@192.168.0.110)</option>
-                <option>alpine-01 (root@192.168.0.161)</option>
-              </select>
-            </div>
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold text-[11px]">Папка на сервере</label>
-              <input type="text" value="/etc" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white" />
-            </div>
-          </div>
-          <div class="p-4 bg-slate-950 border-t border-slate-800 flex justify-end gap-2 text-xs">
-            <button onclick="closeDemoModal()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300">Отмена</button>
-            <button onclick="closeDemoModal(); showToast('Файл успешно отправлен по SFTP', 'success');" class="px-4 py-1.5 rounded-xl btn-accent font-semibold">Отправить</button>
-          </div>
-        `;
-      } else if (size === 'lg') {
-        box.className = 'bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden modal-lg modal-fixed';
-        box.innerHTML = `
-          <div class="p-5 border-b border-slate-800 flex items-center justify-between shrink-0">
-            <div class="flex items-center space-x-2">
-              <span class="text-lg">🖥️</span>
-              <h3 class="font-bold text-white text-base">Настройка узла: debian-server</h3>
-            </div>
-            <button onclick="closeDemoModal()" class="text-slate-400 hover:text-white">✕</button>
-          </div>
-          <!-- Tabs -->
-          <div class="flex border-b border-slate-800 bg-slate-950/70 px-4 gap-2 text-xs font-semibold shrink-0">
-            <button onclick="switchDemoTab(this, 't1')" class="demo-tab-btn py-3 px-3 border-b-2 border-teal-400 text-teal-300">1. Основные</button>
-            <button onclick="switchDemoTab(this, 't2')" class="demo-tab-btn py-3 px-3 border-b-2 border-transparent text-slate-400 hover:text-white">2. Подключение SSH</button>
-            <button onclick="switchDemoTab(this, 't3')" class="demo-tab-btn py-3 px-3 border-b-2 border-transparent text-slate-400 hover:text-white">3. Remote Agent</button>
-            <button onclick="switchDemoTab(this, 't4')" class="demo-tab-btn py-3 px-3 border-b-2 border-transparent text-slate-400 hover:text-white">4. Развертывание</button>
-          </div>
-          <!-- Body with Zero-Jitter -->
-          <div id="demo-tab-content" class="flex-1 p-6 overflow-y-auto custom-scrollbar space-y-4 text-xs">
-            <!-- Tab 1 by default -->
-            <div class="space-y-3">
-              <div class="space-y-1">
-                <label class="text-slate-400 font-semibold">ID узла (servers.yaml)</label>
-                <input type="text" value="debian-01" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono" />
-              </div>
-              <div class="space-y-1">
-                <label class="text-slate-400 font-semibold">Отображаемое имя узла</label>
-                <input type="text" value="Production Debian VPS" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white" />
-              </div>
-              <div class="space-y-1">
-                <label class="text-slate-400 font-semibold">Группа / Окружение</label>
-                <input type="text" value="production" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white" />
-              </div>
-            </div>
-          </div>
-          <!-- Footer -->
-          <div class="p-4 bg-slate-950 border-t border-slate-800 flex items-center justify-between text-xs shrink-0">
-            <button class="px-3 py-1.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20">Удалить</button>
-            <div class="flex gap-2">
-              <button onclick="closeDemoModal()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300">Отмена</button>
-              <button onclick="closeDemoModal(); showToast('Узел сохранен в servers.yaml', 'success');" class="px-4 py-1.5 rounded-xl btn-accent font-semibold">Сохранить</button>
-            </div>
-          </div>
-        `;
-      } else if (size === 'xl') {
-        box.className = 'bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden modal-xl modal-fixed';
-        box.innerHTML = `
-          <div class="p-5 border-b border-slate-800 flex items-center justify-between shrink-0">
-            <h3 class="font-bold text-white text-base">Diff Comparison & Advanced Configurator (900px)</h3>
-            <button onclick="closeDemoModal()" class="text-slate-400 hover:text-white">✕</button>
-          </div>
-          <div class="flex-1 p-6 overflow-y-auto custom-scrollbar text-xs font-mono bg-slate-950 text-slate-300">
-            <div>--- a/config.yaml</div>
-            <div>+++ b/config.yaml</div>
-            <div class="text-emerald-400">+ port: 8085</div>
-            <div class="text-rose-400">- port: 8080</div>
-          </div>
-          <div class="p-4 bg-slate-950 border-t border-slate-800 flex justify-end gap-2 text-xs shrink-0">
-            <button onclick="closeDemoModal()" class="px-4 py-1.5 rounded-xl bg-slate-800 text-slate-300">Закрыть</button>
-          </div>
-        `;
-      } else if (size === 'fullscreen') {
-        box.className = 'bg-slate-950 flex flex-col overflow-hidden modal-fullscreen';
-        box.innerHTML = `
-          <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900">
-            <div class="font-bold text-white text-sm">Полноэкранный терминал / Fullscreen Mode</div>
-            <button onclick="closeDemoModal()" class="px-3 py-1 rounded-xl bg-slate-800 text-white text-xs">✕ Выйти</button>
-          </div>
-          <div class="flex-1 p-6 font-mono text-emerald-400 text-xs bg-black">
-            <div>root@debian:~# uname -a</div>
-            <div>Linux debian-server 6.1.0-18-amd64 #1 SMP PREEMPT_DYNAMIC Debian x86_64 GNU/Linux</div>
-            <div>root@debian:~# _</div>
-          </div>
-        `;
+    // TOGGLE SWITCH
+    function toggleSwitch(btn) {
+      const isChecked = btn.getAttribute('data-checked') === 'true';
+      if (isChecked) {
+        btn.setAttribute('data-checked', 'false');
+        btn.className = 'w-11 h-6 rounded-full bg-black/40 p-0.5 transition flex items-center justify-start border border-base-border cursor-pointer';
+        btn.querySelector('div').className = 'w-5 h-5 rounded-full bg-gray-400 shadow-md';
+      } else {
+        btn.setAttribute('data-checked', 'true');
+        btn.className = 'w-11 h-6 rounded-full bg-teal-500 p-0.5 transition flex items-center justify-end cursor-pointer';
+        btn.querySelector('div').className = 'w-5 h-5 rounded-full bg-slate-950 shadow-md';
       }
     }
 
-    function switchDemoTab(btn, tab) {
-      document.querySelectorAll('.demo-tab-btn').forEach(b => {
-        b.className = 'demo-tab-btn py-3 px-3 border-b-2 border-transparent text-slate-400 hover:text-white';
-      });
-      btn.className = 'demo-tab-btn py-3 px-3 border-b-2 border-teal-400 text-teal-300';
-      const c = document.getElementById('demo-tab-content');
-      if (tab === 't1') {
-        c.innerHTML = `
-          <div class="space-y-3">
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold">ID узла (servers.yaml)</label>
-              <input type="text" value="debian-01" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono" />
-            </div>
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold">Отображаемое имя узла</label>
-              <input type="text" value="Production Debian VPS" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white" />
-            </div>
-          </div>
-        `;
-      } else if (tab === 't2') {
-        c.innerHTML = `
-          <div class="space-y-4">
-            <div class="form-grid-2-1">
-              <div class="space-y-1">
-                <label class="text-slate-400 font-semibold">Хост / IP</label>
-                <input type="text" value="192.168.0.110" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white" />
-              </div>
-              <div class="space-y-1">
-                <label class="text-slate-400 font-semibold">Порт</label>
-                <input type="number" value="22" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white" />
-              </div>
-            </div>
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold">Пользователь</label>
-              <input type="text" value="root" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white" />
-            </div>
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold">Ключ из Core Vault</label>
-              <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
-                <span>Agent Credentials (debian)</span>
-                <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-400">PASSWORD</span>
-              </div>
-            </div>
-          </div>
-        `;
-      } else if (tab === 't3') {
-        c.innerHTML = `
-          <div class="space-y-4">
-            <div class="form-grid-2-1">
-              <div class="space-y-1">
-                <label class="text-slate-400 font-semibold">URL Агента</label>
-                <input type="text" value="http://192.168.0.110:8085" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono" />
-              </div>
-              <div class="space-y-1">
-                <label class="text-slate-400 font-semibold">TLS</label>
-                <div class="pt-2 text-xs text-slate-400">Проверять TLS ✓</div>
-              </div>
-            </div>
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold">Секрет TOTP из Vault</label>
-              <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs">Remote Agent: alpine-test (Token)</div>
-            </div>
-          </div>
-        `;
-      } else if (tab === 't4') {
-        c.innerHTML = `
-          <div class="space-y-3">
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold">Pre-Apply команда</label>
-              <input type="text" value="systemctl stop nginx" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono" />
-            </div>
-            <div class="space-y-1">
-              <label class="text-slate-400 font-semibold">Post-Apply команда</label>
-              <input type="text" value="systemctl start nginx && nginx -t" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono" />
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    function closeDemoModal() {
-      document.getElementById('demo-modal-overlay').classList.add('hidden');
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeDemoModal();
-    });
-
-    // Custom Dropdown Builder
+    // CUSTOM DROPDOWN BUILDER (EXISTING PRESERVED)
     function createDropdownDemo(containerId, options, initialValue, isCompact = false) {
       const container = document.getElementById(containerId);
       if (!container) return;
@@ -760,33 +1431,33 @@
 
       function render() {
         container.innerHTML = `
-          <div class="w-full ${isCompact ? 'min-h-[30px] px-2.5 py-1 text-xs' : 'min-h-[36px] px-3 py-1.5 text-xs'} rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 flex items-center justify-between cursor-pointer select-none transition">
+          <div class="w-full ${isCompact ? 'min-h-[30px] px-2.5 py-1 text-xs' : 'min-h-[36px] px-3 py-1.5 text-xs'} rounded-xl bg-black/25 border border-base-border hover:border-gray-500/40 flex items-center justify-between cursor-pointer select-none transition">
             <div class="flex items-center space-x-2 min-w-0 flex-1 mr-1">
-              ${selected.dot ? `<span class="w-1.5 h-1.5 rounded-full ${selected.dot === 'green' ? 'bg-emerald-400' : 'bg-slate-500'} shrink-0"></span>` : ''}
-              ${selected.icon ? `<span class="shrink-0 text-slate-400">${selected.icon}</span>` : ''}
+              ${selected.dot ? `<span class="w-1.5 h-1.5 rounded-full ${selected.dot === 'green' ? 'bg-emerald-400' : 'bg-gray-500'} shrink-0"></span>` : ''}
+              ${selected.icon ? `<span class="shrink-0 text-gray-400">${selected.icon}</span>` : ''}
               <span class="truncate text-white font-medium">${escapeHtml(selected.label)}</span>
-              ${selected.badge ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono shrink-0 ${selected.badgeColor || 'bg-slate-800 text-slate-400'}">${escapeHtml(selected.badge)}</span>` : ''}
+              ${selected.badge ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono shrink-0 ${selected.badgeColor || 'bg-black/30 text-gray-400'}">${escapeHtml(selected.badge)}</span>` : ''}
             </div>
-            <span class="text-slate-400 text-[10px] transform transition-transform ${isOpen ? 'rotate-180' : ''}">▼</span>
+            <span class="text-gray-400 text-[10px] transform transition-transform ${isOpen ? 'rotate-180' : ''}">▼</span>
           </div>
 
           ${isOpen ? `
-            <div class="absolute left-0 min-w-full w-full sm:min-w-[260px] mt-1.5 z-50 bg-slate-950 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden text-xs flex flex-col animate-in fade-in zoom-in-95 duration-100">
-              <div class="p-2 border-b border-slate-800">
-                <input type="text" placeholder="Поиск..." class="w-full bg-slate-900 px-2 py-1 rounded-lg text-white text-xs border border-slate-800 focus:outline-none" />
+            <div class="absolute left-0 min-w-full w-full sm:min-w-[260px] mt-1.5 z-50 bg-base-surface border border-base-border rounded-2xl shadow-2xl overflow-hidden text-xs flex flex-col animate-in fade-in zoom-in-95 duration-100">
+              <div class="p-2 border-b border-base-border">
+                <input type="text" placeholder="Поиск..." class="w-full bg-black/20 px-2 py-1 rounded-lg text-white text-xs border border-base-border focus:outline-none" />
               </div>
               <div class="max-h-52 overflow-y-auto custom-scrollbar p-1 space-y-0.5">
                 ${options.map(opt => `
-                  <div onclick="selectOpt('${containerId}', '${opt.value}')" class="p-2 rounded-xl hover:bg-slate-900 flex items-center justify-between cursor-pointer ${opt.value === selected.value ? 'bg-slate-900/80 font-bold' : ''}">
+                  <div onclick="selectOpt('${containerId}', '${opt.value}')" class="p-2 rounded-xl hover:bg-black/20 flex items-center justify-between cursor-pointer ${opt.value === selected.value ? 'bg-black/30 font-bold text-accent' : ''}">
                     <div class="flex items-center space-x-2 min-w-0 flex-1">
-                      ${opt.dot ? `<span class="w-1.5 h-1.5 rounded-full ${opt.dot === 'green' ? 'bg-emerald-400' : 'bg-slate-500'} shrink-0"></span>` : ''}
-                      ${opt.icon ? `<span class="shrink-0 text-slate-400">${opt.icon}</span>` : ''}
+                      ${opt.dot ? `<span class="w-1.5 h-1.5 rounded-full ${opt.dot === 'green' ? 'bg-emerald-400' : 'bg-gray-500'} shrink-0"></span>` : ''}
+                      ${opt.icon ? `<span class="shrink-0 text-gray-400">${opt.icon}</span>` : ''}
                       <div class="truncate flex flex-col">
                         <span class="truncate text-white">${escapeHtml(opt.label)}</span>
-                        ${opt.sub ? `<span class="text-[10px] text-slate-500 font-mono truncate">${escapeHtml(opt.sub)}</span>` : ''}
+                        ${opt.sub ? `<span class="text-[10px] text-gray-400 font-mono truncate">${escapeHtml(opt.sub)}</span>` : ''}
                       </div>
                     </div>
-                    ${opt.badge ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-mono ml-2 shrink-0 ${opt.badgeColor || 'bg-slate-800 text-slate-400'}">${escapeHtml(opt.badge)}</span>` : ''}
+                    ${opt.badge ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-mono ml-2 shrink-0 ${opt.badgeColor || 'bg-black/30 text-gray-400'}">${escapeHtml(opt.badge)}</span>` : ''}
                   </div>
                 `).join('')}
               </div>
@@ -834,22 +1505,33 @@
         .replace(/'/g, '&#39;');
     }
 
-    // Init dropdown instances
+    // ESC KEY LISTENER
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeShowcaseModal();
+        closeConfirmDemo();
+      }
+    });
+
+    // INITIALIZATION
+    applyTheme();
+    setupHorizontalWheelScroll('horizontal-scroll-demo-1');
+
     createDropdownDemo('demo-dropdown-hosts', [
-      { value: 'localhost', label: 'Localhost (Этот ПК)', sub: '127.0.0.1 • Локальный хост', dot: 'green', icon: '💻', badge: 'LOCAL', badgeColor: 'bg-slate-800 text-slate-300' },
-      { value: 'debian', label: 'debian', sub: 'root@192.168.0.110:22', dot: 'green', icon: '🖥️', badge: 'AGENT + SSH', badgeColor: 'bg-teal-500/20 text-teal-300 border border-teal-500/30' },
+      { value: 'localhost', label: 'Localhost (Этот ПК)', sub: '127.0.0.1 • Локальный хост', dot: 'green', icon: '💻', badge: 'LOCAL', badgeColor: 'bg-black/30 text-gray-300' },
+      { value: 'debian', label: 'debian-edge', sub: 'root@192.168.0.110:22', dot: 'green', icon: '🖥️', badge: 'AGENT + SSH', badgeColor: 'bg-teal-500/20 text-teal-300 border border-teal-500/30' },
       { value: 'alpine', label: 'Alpine VM Test', sub: 'root@192.168.0.161:22', dot: 'green', icon: '🖥️', badge: 'SSH', badgeColor: 'bg-sky-500/20 text-sky-300 border border-sky-500/30' }
     ], 'debian');
 
     createDropdownDemo('demo-dropdown-vault', [
-      { value: 'none', label: '(Авто / Агент ОС / Без ключа)', sub: 'Системный ssh-agent или интерактивный ввод', dot: '', icon: '🔑', badge: 'AUTO', badgeColor: 'bg-slate-800 text-slate-400' },
+      { value: 'none', label: '(Авто / Агент ОС / Без ключа)', sub: 'Системный ssh-agent или интерактивный ввод', dot: '', icon: '🔑', badge: 'AUTO', badgeColor: 'bg-black/30 text-gray-400' },
       { value: 'sec_1', label: 'Agent Credentials (debian)', sub: 'ID: agent:debian', dot: 'green', icon: '🔒', badge: 'PASSWORD', badgeColor: 'bg-emerald-500/20 text-emerald-300' },
       { value: 'sec_2', label: 'Remote Agent: alpine-test', sub: 'ID: cs_agent_sec_srv_01', dot: 'green', icon: '⚡', badge: 'TOKEN', badgeColor: 'bg-purple-500/20 text-purple-300' },
       { value: 'sec_3', label: 'main root key', sub: 'ID: id_rsa_main_vault', dot: 'green', icon: '🛡️', badge: 'SSH KEY', badgeColor: 'bg-sky-500/20 text-sky-300' }
     ], 'sec_1');
 
     createDropdownDemo('demo-dropdown-sftp', [
-      { value: 'debian', label: 'debian', sub: 'root@192.168.0.110:22', dot: 'green', icon: '🖥️', badge: 'SSH', badgeColor: 'bg-sky-500/20 text-sky-300' },
+      { value: 'debian', label: 'debian-edge', sub: 'root@192.168.0.110:22', dot: 'green', icon: '🖥️', badge: 'SSH', badgeColor: 'bg-sky-500/20 text-sky-300' },
       { value: 'alpine', label: 'Alpine VM Test', sub: 'root@192.168.0.161:22', dot: 'green', icon: '🖥️', badge: 'SSH', badgeColor: 'bg-sky-500/20 text-sky-300' }
     ], 'debian', true);
   </script>
