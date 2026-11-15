@@ -920,12 +920,725 @@
       </div>
     </section>
 
-    <!-- 12. TOAST NOTIFICATIONS -->
+    <!-- 12. CALLOUT BANNERS -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4 flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>12. Информационные плашки (Callout)</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">7 канонических вариантов (info, success, warning, error, critical, accent, neutral) со слотами действий и закрытием</p>
+        </div>
+        <button onclick="restoreCalloutsDemo()" class="px-3 py-1.5 rounded-xl border border-base-border hover:bg-black/20 text-gray-300 text-xs font-semibold transition cursor-pointer">
+          Сбросить фильтр скрытых
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+        <!-- Info Callout -->
+        <div id="callout-demo-info" class="p-3.5 rounded-xl border text-xs transition-colors flex items-start space-x-3 select-none bg-blue-500/10 border-blue-500/30">
+          <div class="shrink-0 mt-0.5 text-blue-400">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </div>
+          <div class="flex-1 min-w-0 space-y-1">
+            <div class="leading-snug text-blue-100 font-semibold">Обнаружена новая версия агента</div>
+            <div class="leading-relaxed text-blue-200/90 text-[11px]">Доступен релиз <code class="px-1 py-0.5 rounded bg-blue-900/40 font-mono text-[10px]">v2.3.2</code> с поддержкой автономного бекапа хостов.</div>
+          </div>
+          <div class="shrink-0 flex items-center space-x-1.5 pl-2">
+            <button onclick="dismissCallout('callout-demo-info')" class="p-1 rounded-lg text-blue-300 hover:text-white hover:bg-blue-500/20 transition cursor-pointer" title="Закрыть">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Success Callout -->
+        <div id="callout-demo-success" class="p-3.5 rounded-xl border text-xs transition-colors flex items-start space-x-3 select-none bg-emerald-500/10 border-emerald-500/30">
+          <div class="shrink-0 mt-0.5 text-emerald-400">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div class="flex-1 min-w-0 space-y-1">
+            <div class="leading-snug text-emerald-100 font-semibold">Конфигурация синхронизирована</div>
+            <div class="leading-relaxed text-emerald-200/90 text-[11px]">Файл <code class="px-1 py-0.5 rounded bg-emerald-900/40 font-mono text-[10px]">traefik.yaml</code> успешно применен на 3 целевых узлах без простоя.</div>
+          </div>
+          <div class="shrink-0 flex items-center space-x-1.5 pl-2">
+            <button onclick="dismissCallout('callout-demo-success')" class="p-1 rounded-lg text-emerald-300 hover:text-white hover:bg-emerald-500/20 transition cursor-pointer" title="Закрыть">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Warning Callout with Action Button -->
+        <div id="callout-demo-warning" class="p-3.5 rounded-xl border text-xs transition-colors flex items-start space-x-3 select-none bg-amber-500/10 border-amber-500/30">
+          <div class="shrink-0 mt-0.5 text-amber-400">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="flex-1 min-w-0 space-y-1">
+            <div class="leading-snug text-amber-100 font-semibold">Узел требует перезапуска сервиса</div>
+            <div class="leading-relaxed text-amber-200/90 text-[11px]">Смена TLS-сертификатов вступит в силу после перезапуска контейнера.</div>
+          </div>
+          <div class="shrink-0 flex items-center space-x-1.5 pl-2">
+            <button onclick="showToast('Перезапуск сервиса инициирован...', 'info')" class="px-2 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-semibold transition cursor-pointer">
+              Применить
+            </button>
+            <button onclick="dismissCallout('callout-demo-warning')" class="p-1 rounded-lg text-amber-300 hover:text-white hover:bg-amber-500/20 transition cursor-pointer" title="Закрыть">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Critical / Error Callout -->
+        <div id="callout-demo-critical" class="p-3.5 rounded-xl border text-xs transition-colors flex items-start space-x-3 select-none bg-red-500/15 border-red-500/40">
+          <div class="shrink-0 mt-0.5 text-red-400">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="flex-1 min-w-0 space-y-1">
+            <div class="leading-snug text-red-100 font-bold">Сбой аутентификации SSH</div>
+            <div class="leading-relaxed text-red-200/95 text-[11px]">Ключ <code class="px-1 py-0.5 rounded bg-red-950/60 font-mono text-[10px]">id_rsa_main</code> отклонен удаленным хостом 192.168.0.161.</div>
+          </div>
+          <div class="shrink-0 flex items-center space-x-1.5 pl-2">
+            <button onclick="dismissCallout('callout-demo-critical')" class="p-1 rounded-lg text-red-300 hover:text-white hover:bg-red-500/20 transition cursor-pointer" title="Закрыть">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Accent Callout -->
+        <div id="callout-demo-accent" class="p-3.5 rounded-xl border text-xs transition-colors flex items-start space-x-3 select-none bg-accent/10 border-accent/30">
+          <div class="shrink-0 mt-0.5 text-accent">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          </div>
+          <div class="flex-1 min-w-0 space-y-1">
+            <div class="leading-snug text-white font-semibold">Акцентный системный профиль</div>
+            <div class="leading-relaxed text-slate-200 text-[11px]">Динамическая цветовая схема автоматически подстраивается под настройки бренда.</div>
+          </div>
+          <div class="shrink-0 flex items-center space-x-1.5 pl-2">
+            <button onclick="dismissCallout('callout-demo-accent')" class="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition cursor-pointer" title="Закрыть">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Neutral Callout -->
+        <div id="callout-demo-neutral" class="p-3.5 rounded-xl border text-xs transition-colors flex items-start space-x-3 select-none bg-white/5 border-base-border">
+          <div class="shrink-0 mt-0.5 text-gray-400">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </div>
+          <div class="flex-1 min-w-0 space-y-1">
+            <div class="leading-snug text-white font-semibold">Резервная копия сохранена в хранилище</div>
+            <div class="leading-relaxed text-slate-300 text-[11px]">Файл архива размещен по локальному пути <code class="px-1 py-0.5 rounded bg-black/30 font-mono text-[10px]">~/.config-studio/backups/</code>.</div>
+          </div>
+          <div class="shrink-0 flex items-center space-x-1.5 pl-2">
+            <button onclick="dismissCallout('callout-demo-neutral')" class="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition cursor-pointer" title="Закрыть">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13. DROPZONE -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4 flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>13. Загрузка файлов (Dropzone)</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">Контейнер перетаскивания файлов с обработкой dragover, загрузкой, валидацией и блокировкой</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="toggleDropzoneLoadingDemo()" class="px-3 py-1.5 rounded-xl border border-base-border hover:bg-black/20 text-gray-300 text-xs font-semibold transition cursor-pointer">
+            Имитировать загрузку (Loader)
+          </button>
+          <button onclick="toggleDropzoneDisabledDemo()" class="px-3 py-1.5 rounded-xl border border-base-border hover:bg-black/20 text-gray-300 text-xs font-semibold transition cursor-pointer">
+            Блокировка (Disabled)
+          </button>
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto space-y-4">
+        <!-- Interactive Dropzone Area -->
+        <div
+          id="showcase-dropzone"
+          onclick="triggerDropzoneSelect()"
+          ondragover="handleDropzoneDragOver(event)"
+          ondragleave="handleDropzoneDragLeave(event)"
+          ondrop="handleDropzoneDrop(event)"
+          class="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center transition select-none group border-base-border hover:border-accent/70 bg-white/5 hover:bg-accent/5 cursor-pointer"
+        >
+          <input
+            type="file"
+            id="showcase-file-input"
+            onchange="handleDropzoneFileChange(event)"
+            class="hidden"
+          />
+
+          <div id="dropzone-icon-box" class="mb-3 transition group-hover:scale-110">
+            <svg class="w-8 h-8 text-gray-400 group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+
+          <div id="dropzone-title" class="text-sm font-semibold text-white mb-1">
+            Перетащите файл конфигурации сюда
+          </div>
+
+          <div id="dropzone-subtitle" class="text-xs text-gray-400 leading-relaxed max-w-sm">
+            Поддерживаются файлы <code class="text-accent font-mono">.yaml</code>, <code class="text-accent font-mono">.json</code>, <code class="text-accent font-mono">.tar.gz</code> или нажмите для выбора с диска
+          </div>
+        </div>
+
+        <!-- Selected File Status Badge (Hidden initially) -->
+        <div id="dropzone-file-status" class="hidden p-3 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-between text-xs animate-in fade-in">
+          <div class="flex items-center space-x-2.5 min-w-0">
+            <span class="w-2 h-2 rounded-full bg-accent animate-pulse shrink-0"></span>
+            <div class="truncate">
+              <span id="dropzone-file-name" class="font-semibold text-white"></span>
+              <span id="dropzone-file-size" class="text-gray-400 text-[11px] ml-2"></span>
+            </div>
+          </div>
+          <button onclick="clearDropzoneSelection()" class="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition cursor-pointer shrink-0" title="Очистить">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14. PILL TABS & PLUGIN ACTION GROUP -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="10" y1="3" y2="21"/><line x1="16" x2="16" y1="3" y2="21"/></svg>
+          <span>14. Вкладки и действия плагина (PillTabs & PluginActionGroup)</span>
+        </h2>
+        <p class="text-xs text-gray-400 mt-0.5">Вкладки открытых файлов с индикатором изменений (dirty), компактные dock-вкладки, сегменты и экшен-бар плагина</p>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Variant A: Files Tabs + PluginActionGroup in rightSlot -->
+        <div class="space-y-2">
+          <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider flex items-center justify-between">
+            <span>Вкладки файлов редактора (Files Variant) + Экшен-группа плагина</span>
+            <span class="text-[11px] text-gray-400 font-normal">Индикатор несохраненных правок • Закрытие по крестику</span>
+          </div>
+
+          <div class="flex items-center justify-between gap-3 min-w-0 overflow-hidden flex-wrap md:flex-nowrap">
+            <!-- Files PillTabs Recessed Track -->
+            <div id="file-tabs-track" class="flex items-center select-none flex-1 min-w-0 max-w-full p-1 rounded-2xl gap-1 bg-black/35 overflow-x-auto custom-scrollbar border border-base-border shadow-inner" role="tablist">
+              <!-- Tab 1 -->
+              <button onclick="switchFileTab('tab-main')" id="btn-tab-main" role="tab" class="group flex items-center space-x-1.5 font-semibold transition cursor-pointer select-none shrink-0 rounded-xl px-3 py-1.5 text-xs bg-accent text-slate-950 shadow-sm">
+                <span>main.go</span>
+                <span onclick="event.stopPropagation(); closeFileTab('tab-main')" class="p-0.5 rounded hover:bg-black/20 text-slate-900 transition ml-0.5" title="Закрыть вкладку">
+                  <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </span>
+              </button>
+
+              <!-- Tab 2 (Dirty) -->
+              <button onclick="switchFileTab('tab-config')" id="btn-tab-config" role="tab" class="group flex items-center space-x-1.5 font-medium transition cursor-pointer select-none shrink-0 rounded-xl px-3 py-1.5 text-xs text-gray-400 hover:text-white hover:bg-white/10">
+                <span>traefik.yaml</span>
+                <!-- Dirty dot (amber) -->
+                <span class="w-2 h-2 rounded-full bg-amber-400 ring-2 ring-black/40 shrink-0" title="Несохраненные изменения"></span>
+                <span onclick="event.stopPropagation(); closeFileTab('tab-config')" class="p-0.5 rounded opacity-0 group-hover:opacity-100 hover:bg-white/20 text-gray-400 hover:text-white transition ml-0.5" title="Закрыть вкладку">
+                  <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </span>
+              </button>
+
+              <!-- Tab 3 -->
+              <button onclick="switchFileTab('tab-readme')" id="btn-tab-readme" role="tab" class="group flex items-center space-x-1.5 font-medium transition cursor-pointer select-none shrink-0 rounded-xl px-3 py-1.5 text-xs text-gray-400 hover:text-white hover:bg-white/10">
+                <span>README.md</span>
+                <span onclick="event.stopPropagation(); closeFileTab('tab-readme')" class="p-0.5 rounded opacity-0 group-hover:opacity-100 hover:bg-white/20 text-gray-400 hover:text-white transition ml-0.5" title="Закрыть вкладку">
+                  <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </span>
+              </button>
+
+              <!-- Add Tab button -->
+              <button onclick="addNewFileTabDemo()" class="p-1.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition cursor-pointer shrink-0" title="Открыть новый файл">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+
+            <!-- PluginActionGroup (Right Slot) -->
+            <div class="flex items-center space-x-1.5 p-1 rounded-xl bg-black/30 border border-base-border select-none shrink-0">
+              <div class="flex items-center space-x-1 px-2 py-0.5 rounded-lg border text-[10px] font-mono font-bold uppercase tracking-wider shrink-0 border-emerald-500/30 text-emerald-400 bg-emerald-500/10">
+                <svg class="w-3 h-3 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <span>TRAEFIK</span>
+              </div>
+              <button onclick="showToast('Сервис Traefik перезапущен', 'success')" class="flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-semibold border border-base-border bg-base-surface hover:bg-accent/15 hover:border-accent text-white transition cursor-pointer shadow-xs active:scale-95 shrink-0">
+                <span>Перезапуск</span>
+              </button>
+              <button onclick="showToast('Логи Traefik открыты', 'info')" class="flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-semibold border border-base-border bg-base-surface hover:bg-accent/15 hover:border-accent text-white transition cursor-pointer shadow-xs active:scale-95 shrink-0">
+                <span>Логи</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Variant B: Dock Tabs with Status Dots -->
+        <div class="space-y-2">
+          <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider">
+            Компактные Dock-вкладки сервисов со статусами
+          </div>
+          <div class="p-0.5 rounded-xl gap-0.5 bg-black/35 overflow-x-auto custom-scrollbar border border-base-border shadow-inner flex items-center w-fit">
+            <button onclick="switchDockTab(this)" class="dock-tab-btn flex items-center space-x-1.5 font-semibold transition cursor-pointer select-none shrink-0 rounded-lg px-2.5 py-1 text-xs bg-accent text-slate-950 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-500/20"></span>
+              <span>api-gateway</span>
+              <span class="text-[10px] px-1 py-0.2 rounded bg-black/20 text-slate-900 font-mono">PORT 8080</span>
+            </button>
+            <button onclick="switchDockTab(this)" class="dock-tab-btn flex items-center space-x-1.5 font-medium transition cursor-pointer select-none shrink-0 rounded-lg px-2.5 py-1 text-xs text-gray-400 hover:text-white hover:bg-white/10">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-500/20"></span>
+              <span>auth-service</span>
+            </button>
+            <button onclick="switchDockTab(this)" class="dock-tab-btn flex items-center space-x-1.5 font-medium transition cursor-pointer select-none shrink-0 rounded-lg px-2.5 py-1 text-xs text-gray-400 hover:text-white hover:bg-white/10">
+              <span class="w-2 h-2 rounded-full bg-amber-400 ring-2 ring-amber-400/20"></span>
+              <span>metrics-collector</span>
+            </button>
+            <button onclick="switchDockTab(this)" class="dock-tab-btn flex items-center space-x-1.5 font-medium transition cursor-pointer select-none shrink-0 rounded-lg px-2.5 py-1 text-xs text-gray-400 hover:text-white hover:bg-white/10">
+              <span class="w-2 h-2 rounded-full bg-red-400 ring-2 ring-red-400/20"></span>
+              <span>postgres-replica</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Variant C: Full Width Segmented Control -->
+        <div class="space-y-2">
+          <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider">
+            Полноширинный переключатель категорий (Segmented Control)
+          </div>
+          <div class="w-full p-1 rounded-2xl gap-1 bg-black/35 overflow-hidden border border-base-border shadow-inner flex items-center">
+            <button onclick="switchSegmentedTab(this)" class="seg-btn flex-1 min-w-0 justify-center rounded-xl py-1.5 text-xs font-semibold transition cursor-pointer select-none bg-accent text-slate-950 shadow-sm flex items-center gap-1.5">
+              <span>Все плагины</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-black/20 text-slate-900 font-mono font-bold">14</span>
+            </button>
+            <button onclick="switchSegmentedTab(this)" class="seg-btn flex-1 min-w-0 justify-center rounded-xl py-1.5 text-xs font-medium transition cursor-pointer select-none text-gray-400 hover:text-white hover:bg-white/10 flex items-center gap-1.5">
+              <span>Активные</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 text-gray-300 font-mono">11</span>
+            </button>
+            <button onclick="switchSegmentedTab(this)" class="seg-btn flex-1 min-w-0 justify-center rounded-xl py-1.5 text-xs font-medium transition cursor-pointer select-none text-gray-400 hover:text-white hover:bg-white/10 flex items-center gap-1.5">
+              <span>Остановленные</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 text-gray-300 font-mono">3</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15. STATUS CARD -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
+          <span>15. Карточки состояния сущностей (StatusCard)</span>
+        </h2>
+        <p class="text-xs text-gray-400 mt-0.5">Карточки узлов инфраструктуры, агентов и ключей с подсветкой статуса, бэйджами и слотами быстрых действий</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Node 1: debian-edge (Online / Success) -->
+        <div class="bg-base-surface border border-base-border rounded-2xl p-4 transition-all hover:border-emerald-500/40 select-none flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-start space-x-3 min-w-0">
+                <div class="p-2 rounded-xl bg-white/10 text-emerald-400 shrink-0 mt-0.5">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-emerald-400/20 shrink-0"></span>
+                    <span class="text-xs font-semibold text-white truncate">debian-edge</span>
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">ONLINE</span>
+                  </div>
+                  <div class="text-[11px] text-gray-400 mt-0.5 truncate">root@192.168.0.110:22 • Linux Debian 13</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-base-border/50 text-xs text-gray-300 space-y-1 font-mono text-[11px]">
+              <div class="flex justify-between">
+                <span class="text-gray-400">Версия агента:</span>
+                <span class="text-accent font-semibold">v2.3.1 (Embedded)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">Нагрузка:</span>
+                <span>4 ядра • RAM 2.4 / 8 GB</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end space-x-2 mt-4 pt-2 border-t border-base-border">
+            <button onclick="showToast('Подключение к SSH debian-edge...', 'info')" class="px-2.5 py-1 rounded-lg text-xs font-semibold border border-base-border hover:bg-white/10 text-gray-200 transition cursor-pointer">
+              Терминал
+            </button>
+            <button onclick="showToast('Открыт редактор конфигураций debian-edge', 'info')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-accent text-slate-950 hover:brightness-110 transition cursor-pointer">
+              Настроить
+            </button>
+          </div>
+        </div>
+
+        <!-- Node 2: alpine-01 (Warning) -->
+        <div class="bg-base-surface border border-base-border rounded-2xl p-4 transition-all hover:border-amber-500/40 select-none flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-start space-x-3 min-w-0">
+                <div class="p-2 rounded-xl bg-white/10 text-amber-400 shrink-0 mt-0.5">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 ring-2 ring-amber-400/20 shrink-0"></span>
+                    <span class="text-xs font-semibold text-white truncate">alpine-01-prod</span>
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30">HIGH DISK</span>
+                  </div>
+                  <div class="text-[11px] text-gray-400 mt-0.5 truncate">root@192.168.0.161:22 • Alpine 3.19</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-base-border/50 text-xs text-gray-300 space-y-1 font-mono text-[11px]">
+              <div class="flex justify-between">
+                <span class="text-gray-400">Диск /var/log:</span>
+                <span class="text-amber-400 font-semibold">92% Заполнено</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">Статус демона:</span>
+                <span class="text-emerald-400">Работает (PID 841)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end space-x-2 mt-4 pt-2 border-t border-base-border">
+            <button onclick="showToast('Очистка логов на alpine-01...', 'info')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition cursor-pointer">
+              Очистить кэш
+            </button>
+          </div>
+        </div>
+
+        <!-- Node 3: Vault Key (Accent) -->
+        <div class="bg-base-surface border border-base-border rounded-2xl p-4 transition-all hover:border-accent/40 select-none flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-start space-x-3 min-w-0">
+                <div class="p-2 rounded-xl bg-white/10 text-accent shrink-0 mt-0.5">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-1.5 1.5L14 9l-2-2-4 4 1.5 1.5L8 14l-2 2-2-2-2 2 4 4 11-11z"/><circle cx="16.5" cy="7.5" r=".5"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+                    <span class="w-2 h-2 rounded-full bg-accent ring-2 ring-accent/20 shrink-0"></span>
+                    <span class="text-xs font-semibold text-white truncate">Vault: id_rsa_prod</span>
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-accent/15 text-accent border border-accent/30">ED25519</span>
+                  </div>
+                  <div class="text-[11px] text-gray-400 mt-0.5 truncate">Секретный ключ авторизации узлов</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-base-border/50 text-xs text-gray-300 space-y-1 font-mono text-[11px]">
+              <div class="flex justify-between">
+                <span class="text-gray-400">Отпечаток:</span>
+                <span class="text-gray-300">SHA256:7m8E...k9P</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">Связанных узлов:</span>
+                <span class="text-white">6 серверов</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end space-x-2 mt-4 pt-2 border-t border-base-border">
+            <button onclick="showToast('Публичный ключ скопирован в буфер', 'success')" class="px-2.5 py-1 rounded-lg text-xs font-semibold border border-base-border hover:bg-white/10 text-gray-200 transition cursor-pointer">
+              Копировать
+            </button>
+            <button onclick="showToast('Мастер ротации ключа запущен', 'info')" class="px-2.5 py-1 rounded-lg text-xs font-semibold border border-base-border hover:bg-white/10 text-gray-200 transition cursor-pointer">
+              Ротация
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 16. NUMBER INPUT -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+          <span>16. Числовой ввод (NumberInput)</span>
+        </h2>
+        <p class="text-xs text-gray-400 mt-0.5">Поле числового ввода со встроенными вертикальными кнопками-степперами, лимитами min/max и шагом</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- Number Input 1: Standard Port -->
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider select-none">
+            Порт прослушивания (Port)
+          </label>
+          <div class="relative flex items-center">
+            <input
+              id="num-input-port"
+              type="number"
+              min="1"
+              max="65535"
+              step="1"
+              value="8080"
+              class="w-full bg-black/30 border border-base-border focus:border-accent rounded-xl text-xs text-white placeholder:text-gray-500 focus:outline-none transition-colors px-3.5 py-2 pr-9"
+            />
+            <div class="absolute right-1 top-1 bottom-1 flex flex-col justify-center border-l border-base-border pl-1">
+              <button onclick="handleNumStep('num-input-port', 1, 1, 65535)" class="p-0.5 text-gray-400 hover:text-accent hover:bg-white/10 rounded transition cursor-pointer" title="Увеличить">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button onclick="handleNumStep('num-input-port', -1, 1, 65535)" class="p-0.5 text-gray-400 hover:text-accent hover:bg-white/10 rounded transition cursor-pointer" title="Уменьшить">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+            </div>
+          </div>
+          <p class="text-[11px] text-gray-400">Диапазон: 1 — 65535 (По умолчанию: 8080)</p>
+        </div>
+
+        <!-- Number Input 2: Step 2 & Bounds -->
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider select-none">
+            Потоки воркеров (Concurrency)
+          </label>
+          <div class="relative flex items-center">
+            <input
+              id="num-input-workers"
+              type="number"
+              min="2"
+              max="64"
+              step="2"
+              value="8"
+              class="w-full bg-black/30 border border-base-border focus:border-accent rounded-xl text-xs text-white placeholder:text-gray-500 focus:outline-none transition-colors px-3.5 py-2 pr-9"
+            />
+            <div class="absolute right-1 top-1 bottom-1 flex flex-col justify-center border-l border-base-border pl-1">
+              <button onclick="handleNumStep('num-input-workers', 2, 2, 64)" class="p-0.5 text-gray-400 hover:text-accent hover:bg-white/10 rounded transition cursor-pointer" title="Увеличить">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button onclick="handleNumStep('num-input-workers', -2, 2, 64)" class="p-0.5 text-gray-400 hover:text-accent hover:bg-white/10 rounded transition cursor-pointer" title="Уменьшить">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+            </div>
+          </div>
+          <p class="text-[11px] text-gray-400">Шаг: 2 • Минимум 2, Максимум 64</p>
+        </div>
+
+        <!-- Number Input 3: Validation Error State -->
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider select-none">
+            Таймаут соединения (мс)
+          </label>
+          <div class="relative flex items-center">
+            <input
+              id="num-input-timeout"
+              type="number"
+              value="-250"
+              class="w-full bg-black/30 border border-red-500 focus:border-red-500 rounded-xl text-xs text-white placeholder:text-gray-500 focus:outline-none transition-colors px-3.5 py-2 pr-9"
+            />
+            <div class="absolute right-1 top-1 bottom-1 flex flex-col justify-center border-l border-red-500/50 pl-1">
+              <button onclick="handleNumStep('num-input-timeout', 100, 100, 30000)" class="p-0.5 text-gray-400 hover:text-red-400 hover:bg-white/10 rounded transition cursor-pointer" title="Увеличить">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button onclick="handleNumStep('num-input-timeout', -100, 100, 30000)" class="p-0.5 text-gray-400 hover:text-red-400 hover:bg-white/10 rounded transition cursor-pointer" title="Уменьшить">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+            </div>
+          </div>
+          <p class="text-[11px] text-red-400 font-medium">Таймаут должен быть положительным числом (≥ 100 мс)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 17. CHECKBOX -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4 flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span>17. Флажки (Checkbox & Indeterminate)</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">Кастомные флажки с состояниями checked, unchecked и indeterminate (частичный выбор узлов)</p>
+        </div>
+        <button onclick="cycleIndeterminateDemo()" class="px-3 py-1.5 rounded-xl border border-base-border hover:bg-black/20 text-gray-300 text-xs font-semibold transition cursor-pointer">
+          Переключить цикл: [✓] → [—] → [ ]
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Checkbox 1: Checked -->
+        <label onclick="toggleShowcaseCheckbox('chk-1')" class="inline-flex items-start gap-2.5 select-none cursor-pointer group p-3 rounded-xl border border-base-border hover:border-accent/40 bg-white/5 transition">
+          <div class="relative flex items-center shrink-0 mt-0.5">
+            <div id="chk-box-1" class="w-4 h-4 rounded flex items-center justify-center border transition-all bg-accent border-accent text-slate-950 font-bold">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="text-xs font-semibold text-white leading-snug">Авто-обновление агента</div>
+            <div class="text-[11px] text-gray-400 mt-0.5 leading-relaxed">Проверять и устанавливать релизы агента автоматически</div>
+          </div>
+        </label>
+
+        <!-- Checkbox 2: Indeterminate -->
+        <label id="chk-label-indet" onclick="cycleIndeterminateDemo()" class="inline-flex items-start gap-2.5 select-none cursor-pointer group p-3 rounded-xl border border-base-border hover:border-accent/40 bg-white/5 transition">
+          <div class="relative flex items-center shrink-0 mt-0.5">
+            <div id="chk-box-indet" class="w-4 h-4 rounded flex items-center justify-center border transition-all bg-accent border-accent text-slate-950 font-bold">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div id="chk-title-indet" class="text-xs font-semibold text-white leading-snug">Выбрать все серверы</div>
+            <div id="chk-desc-indet" class="text-[11px] text-gray-400 mt-0.5 leading-relaxed">Выбрано 3 из 7 доступных узлов</div>
+          </div>
+        </label>
+
+        <!-- Checkbox 3: Unchecked -->
+        <label onclick="toggleShowcaseCheckbox('chk-3')" class="inline-flex items-start gap-2.5 select-none cursor-pointer group p-3 rounded-xl border border-base-border hover:border-accent/40 bg-white/5 transition">
+          <div class="relative flex items-center shrink-0 mt-0.5">
+            <div id="chk-box-3" class="w-4 h-4 rounded flex items-center justify-center border transition-all border-base-border bg-base-surface group-hover:border-accent/70"></div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="text-xs font-semibold text-white leading-snug">Debug логирование</div>
+            <div class="text-[11px] text-gray-400 mt-0.5 leading-relaxed">Выводить полный trace в системный журнал</div>
+          </div>
+        </label>
+
+        <!-- Checkbox 4: Disabled -->
+        <label class="inline-flex items-start gap-2.5 select-none opacity-50 cursor-not-allowed p-3 rounded-xl border border-base-border bg-white/5">
+          <div class="relative flex items-center shrink-0 mt-0.5">
+            <div class="w-4 h-4 rounded flex items-center justify-center border border-base-border bg-white/10 text-gray-500">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="text-xs font-semibold text-gray-400 leading-snug">Root-доступ по SSH</div>
+            <div class="text-[11px] text-gray-500 mt-0.5 leading-relaxed">Заблокировано глобальной политикой безопасности</div>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <!-- 18. SPLIT PANEL -->
+    <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
+      <div class="border-b border-base-border pb-4 flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/></svg>
+            <span>18. Разделяемая рабочая область (SplitPanel)</span>
+          </h2>
+          <p class="text-xs text-gray-400 mt-0.5">Боковая инспекционная панель с высотой шапки 44px, пульсирующим статусом, кнопками Maximize / Restore и закрытием</p>
+        </div>
+        <button onclick="toggleSplitPanelVisibilityDemo()" id="split-reopen-btn" class="px-3 py-1.5 rounded-xl border border-base-border hover:bg-black/20 text-gray-300 text-xs font-semibold transition cursor-pointer">
+          Скрыть / Показать SplitPanel
+        </button>
+      </div>
+
+      <!-- Live Interactive Split Workspace Mockup -->
+      <div class="h-96 border border-base-border rounded-2xl overflow-hidden flex bg-base relative">
+        <!-- Main Workspace (Left 52%) -->
+        <div class="flex-1 flex flex-col p-4 overflow-y-auto space-y-3">
+          <div class="flex items-center justify-between border-b border-base-border pb-2.5">
+            <span class="text-xs font-bold text-white uppercase tracking-wider">Флот серверов (Основная область)</span>
+            <span class="text-[11px] text-gray-400">4 хоста активно</span>
+          </div>
+
+          <div class="space-y-2">
+            <div class="p-3 rounded-xl bg-white/5 border border-base-border hover:border-accent/40 cursor-pointer transition flex items-center justify-between">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="text-xs font-semibold text-white">debian-edge (Текущий выбор)</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-accent/20 text-accent font-mono">192.168.0.110</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white/5 border border-base-border hover:border-accent/40 cursor-pointer transition flex items-center justify-between">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                <span class="text-xs font-semibold text-gray-300">alpine-01-prod</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-black/30 text-gray-400 font-mono">192.168.0.161</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white/5 border border-base-border hover:border-accent/40 cursor-pointer transition flex items-center justify-between">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="text-xs font-semibold text-gray-300">localhost</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-black/30 text-gray-400 font-mono">127.0.0.1</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SplitPanel (Right 48% or Fullscreen) -->
+        <aside
+          id="showcase-split-panel"
+          style="width: 48%; min-width: 320px;"
+          class="border-l border-base-border flex flex-col bg-base-surface transition-all duration-200 z-20 h-full shrink-0"
+        >
+          <!-- SplitPanel Header (Exact 44px / h-11) -->
+          <div class="h-11 min-h-11 max-h-11 px-3.5 border-b border-base-border bg-base-surface flex items-center justify-between select-none shrink-0">
+            <div class="flex items-center space-x-2.5 min-w-0">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 ring-4 ring-emerald-400/20 animate-pulse shrink-0"></span>
+              <div class="min-w-0">
+                <span class="text-xs font-semibold text-white truncate block tracking-wide">
+                  Инспектор узла debian-edge
+                </span>
+                <span class="text-[10px] text-gray-400 truncate block -mt-0.5">
+                  root@192.168.0.110:22 • Linux Debian 13
+                </span>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-1 shrink-0">
+              <!-- Maximize / Restore Button -->
+              <button
+                id="split-maximize-btn"
+                onclick="toggleSplitPanelMaximizeDemo()"
+                class="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition cursor-pointer"
+                title="Развернуть на весь экран"
+              >
+                <svg id="split-maximize-icon" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              </button>
+
+              <!-- Close Button -->
+              <button
+                onclick="toggleSplitPanelVisibilityDemo()"
+                class="p-1 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition cursor-pointer"
+                title="Закрыть панель"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- SplitPanel Content Area -->
+          <div class="flex-1 overflow-y-auto p-4 space-y-3 text-xs text-gray-300">
+            <div class="p-3 rounded-xl bg-black/30 border border-base-border space-y-1.5 font-mono text-[11px]">
+              <div class="text-accent font-bold">SYSTEM TELEMETRY</div>
+              <div class="flex justify-between"><span class="text-gray-400">Status:</span><span class="text-emerald-400">Agent Connected</span></div>
+              <div class="flex justify-between"><span class="text-gray-400">Latency:</span><span>1.4 ms (LAN)</span></div>
+              <div class="flex justify-between"><span class="text-gray-400">Auth:</span><span>SSH Vault Key #sec_1</span></div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Быстрые действия узла:</span>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <button onclick="showToast('Диагностика узла выполнена: OK', 'success')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition cursor-pointer">
+                  Health Check
+                </button>
+                <button onclick="showToast('Запрошен дамп журналов systemd', 'info')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition cursor-pointer">
+                  Dump Journal
+                </button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 19. TOAST NOTIFICATIONS (RENAMED FROM 12) -->
     <section class="p-6 rounded-3xl bg-base-surface border border-base-border space-y-6">
       <div class="border-b border-base-border pb-4">
         <h2 class="text-lg font-bold text-white flex items-center gap-2">
           <span>🔔</span>
-          <span>12. Всплывающие уведомления (Toast Notifications)</span>
+          <span>19. Всплывающие уведомления (Toast Notifications)</span>
         </h2>
         <p class="text-xs text-gray-400 mt-0.5">Всплывающие уведомления в нижнем углу экрана</p>
       </div>
@@ -1540,6 +2253,275 @@
         closeConfirmDemo();
       }
     });
+
+    // ==========================================
+    // 12. CALLOUT DEMO HELPERS
+    // ==========================================
+    function dismissCallout(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.opacity = '0';
+        el.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          el.classList.add('hidden');
+          showToast('Плашка уведомления скрыта', 'info');
+        }, 150);
+      }
+    }
+
+    function restoreCalloutsDemo() {
+      const calloutIds = [
+        'callout-demo-info',
+        'callout-demo-success',
+        'callout-demo-warning',
+        'callout-demo-critical',
+        'callout-demo-accent',
+        'callout-demo-neutral'
+      ];
+      calloutIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.remove('hidden');
+          el.style.opacity = '1';
+          el.style.transform = 'scale(1)';
+        }
+      });
+      showToast('Все плашки Callout восстановлены', 'success');
+    }
+
+    // ==========================================
+    // 13. DROPZONE DEMO HELPERS
+    // ==========================================
+    let dropzoneIsLoading = false;
+    let dropzoneIsDisabled = false;
+
+    function triggerDropzoneSelect() {
+      if (dropzoneIsLoading || dropzoneIsDisabled) return;
+      document.getElementById('showcase-file-input').click();
+    }
+
+    function handleDropzoneDragOver(e) {
+      e.preventDefault();
+      if (dropzoneIsLoading || dropzoneIsDisabled) return;
+      const dz = document.getElementById('showcase-dropzone');
+      dz.classList.add('border-accent', 'bg-accent/10', 'scale-[1.01]');
+    }
+
+    function handleDropzoneDragLeave(e) {
+      e.preventDefault();
+      const dz = document.getElementById('showcase-dropzone');
+      dz.classList.remove('border-accent', 'bg-accent/10', 'scale-[1.01]');
+    }
+
+    function handleDropzoneDrop(e) {
+      e.preventDefault();
+      handleDropzoneDragLeave(e);
+      if (dropzoneIsLoading || dropzoneIsDisabled) return;
+      if (e.dataTransfer && e.dataTransfer.files.length > 0) {
+        displaySelectedDropzoneFile(e.dataTransfer.files[0]);
+      }
+    }
+
+    function handleDropzoneFileChange(e) {
+      if (e.target.files && e.target.files.length > 0) {
+        displaySelectedDropzoneFile(e.target.files[0]);
+      }
+    }
+
+    function displaySelectedDropzoneFile(file) {
+      const statusEl = document.getElementById('dropzone-file-status');
+      const nameEl = document.getElementById('dropzone-file-name');
+      const sizeEl = document.getElementById('dropzone-file-size');
+
+      nameEl.textContent = file.name;
+      sizeEl.textContent = '(' + (file.size / 1024).toFixed(1) + ' KB)';
+      statusEl.classList.remove('hidden');
+      showToast('Файл "' + file.name + '" загружен в Dropzone', 'success');
+    }
+
+    function clearDropzoneSelection() {
+      document.getElementById('showcase-file-input').value = '';
+      document.getElementById('dropzone-file-status').classList.add('hidden');
+    }
+
+    function toggleDropzoneLoadingDemo() {
+      dropzoneIsLoading = !dropzoneIsLoading;
+      const iconBox = document.getElementById('dropzone-icon-box');
+      const title = document.getElementById('dropzone-title');
+
+      if (dropzoneIsLoading) {
+        iconBox.innerHTML = '<svg class="w-8 h-8 text-accent animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>';
+        title.textContent = 'Идет загрузка и проверка манифеста...';
+      } else {
+        iconBox.innerHTML = '<svg class="w-8 h-8 text-gray-400 group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>';
+        title.textContent = 'Перетащите файл конфигурации сюда';
+      }
+    }
+
+    function toggleDropzoneDisabledDemo() {
+      dropzoneIsDisabled = !dropzoneIsDisabled;
+      const dz = document.getElementById('showcase-dropzone');
+      if (dropzoneIsDisabled) {
+        dz.classList.add('opacity-40', 'cursor-not-allowed', 'pointer-events-none');
+        showToast('Dropzone заблокирован', 'info');
+      } else {
+        dz.classList.remove('opacity-40', 'cursor-not-allowed', 'pointer-events-none');
+        showToast('Dropzone активен', 'success');
+      }
+    }
+
+    // ==========================================
+    // 14. PILL TABS DEMO HELPERS
+    // ==========================================
+    function switchFileTab(tabId) {
+      const tabs = ['tab-main', 'tab-config', 'tab-readme'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('btn-' + t);
+        if (!btn) return;
+        if (t === tabId) {
+          btn.className = 'group flex items-center space-x-1.5 font-semibold transition cursor-pointer select-none shrink-0 rounded-xl px-3 py-1.5 text-xs bg-accent text-slate-950 shadow-sm';
+        } else {
+          btn.className = 'group flex items-center space-x-1.5 font-medium transition cursor-pointer select-none shrink-0 rounded-xl px-3 py-1.5 text-xs text-gray-400 hover:text-white hover:bg-white/10';
+        }
+      });
+    }
+
+    function closeFileTab(tabId) {
+      const btn = document.getElementById('btn-' + tabId);
+      if (btn) {
+        btn.remove();
+        showToast('Вкладка закрыта', 'info');
+      }
+    }
+
+    let dynamicTabCounter = 1;
+    function addNewFileTabDemo() {
+      const track = document.getElementById('file-tabs-track');
+      const addBtn = track.lastElementChild;
+      const newId = 'dynamic-tab-' + dynamicTabCounter++;
+
+      const newBtn = document.createElement('button');
+      newBtn.id = 'btn-' + newId;
+      newBtn.role = 'tab';
+      newBtn.className = 'group flex items-center space-x-1.5 font-medium transition cursor-pointer select-none shrink-0 rounded-xl px-3 py-1.5 text-xs text-gray-400 hover:text-white hover:bg-white/10 animate-in fade-in';
+      newBtn.innerHTML = `<span>new_file_${dynamicTabCounter-1}.json</span>
+        <span onclick="event.stopPropagation(); this.closest('button').remove(); showToast('Вкладка закрыта', 'info');" class="p-0.5 rounded opacity-0 group-hover:opacity-100 hover:bg-white/20 text-gray-400 hover:text-white transition ml-0.5" title="Закрыть вкладку">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </span>`;
+      newBtn.onclick = () => {
+        const all = track.querySelectorAll('[role="tab"]');
+        all.forEach(b => b.className = 'group flex items-center space-x-1.5 font-medium transition cursor-pointer select-none shrink-0 rounded-xl px-3 py-1.5 text-xs text-gray-400 hover:text-white hover:bg-white/10');
+        newBtn.className = 'group flex items-center space-x-1.5 font-semibold transition cursor-pointer select-none shrink-0 rounded-xl px-3 py-1.5 text-xs bg-accent text-slate-950 shadow-sm';
+      };
+
+      track.insertBefore(newBtn, addBtn);
+      showToast('Открыт новый файл: new_file_' + (dynamicTabCounter-1) + '.json', 'info');
+    }
+
+    function switchDockTab(btn) {
+      document.querySelectorAll('.dock-tab-btn').forEach(b => {
+        b.className = 'dock-tab-btn flex items-center space-x-1.5 font-medium transition cursor-pointer select-none shrink-0 rounded-lg px-2.5 py-1 text-xs text-gray-400 hover:text-white hover:bg-white/10';
+      });
+      btn.className = 'dock-tab-btn flex items-center space-x-1.5 font-semibold transition cursor-pointer select-none shrink-0 rounded-lg px-2.5 py-1 text-xs bg-accent text-slate-950 shadow-sm';
+    }
+
+    function switchSegmentedTab(btn) {
+      document.querySelectorAll('.seg-btn').forEach(b => {
+        b.className = 'seg-btn flex-1 min-w-0 justify-center rounded-xl py-1.5 text-xs font-medium transition cursor-pointer select-none text-gray-400 hover:text-white hover:bg-white/10 flex items-center gap-1.5';
+      });
+      btn.className = 'seg-btn flex-1 min-w-0 justify-center rounded-xl py-1.5 text-xs font-semibold transition cursor-pointer select-none bg-accent text-slate-950 shadow-sm flex items-center gap-1.5';
+    }
+
+    // ==========================================
+    // 16. NUMBER INPUT DEMO HELPERS
+    // ==========================================
+    function handleNumStep(inputId, delta, min, max) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      let val = Number(input.value) || 0;
+      val += delta;
+      if (min !== undefined && val < min) val = min;
+      if (max !== undefined && val > max) val = max;
+      input.value = val;
+    }
+
+    // ==========================================
+    // 17. CHECKBOX DEMO HELPERS
+    // ==========================================
+    function toggleShowcaseCheckbox(id) {
+      const box = document.getElementById('chk-box-' + id.replace('chk-', ''));
+      if (!box) return;
+      const isChecked = box.classList.contains('bg-accent');
+      if (isChecked) {
+        box.className = 'w-4 h-4 rounded flex items-center justify-center border transition-all border-base-border bg-base-surface group-hover:border-accent/70';
+        box.innerHTML = '';
+      } else {
+        box.className = 'w-4 h-4 rounded flex items-center justify-center border transition-all bg-accent border-accent text-slate-950 font-bold';
+        box.innerHTML = '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+      }
+    }
+
+    let indeterminateState = 1; // 0 = unchecked, 1 = indeterminate, 2 = checked
+    function cycleIndeterminateDemo() {
+      indeterminateState = (indeterminateState + 1) % 3;
+      const box = document.getElementById('chk-box-indet');
+      const title = document.getElementById('chk-title-indet');
+      const desc = document.getElementById('chk-desc-indet');
+
+      if (indeterminateState === 0) {
+        box.className = 'w-4 h-4 rounded flex items-center justify-center border transition-all border-base-border bg-base-surface group-hover:border-accent/70';
+        box.innerHTML = '';
+        title.textContent = 'Выбрать все серверы';
+        desc.textContent = 'Не выбрано ни одного сервера (0 из 7)';
+      } else if (indeterminateState === 1) {
+        box.className = 'w-4 h-4 rounded flex items-center justify-center border transition-all bg-accent border-accent text-slate-950 font-bold';
+        box.innerHTML = '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+        title.textContent = 'Выбрать все серверы';
+        desc.textContent = 'Выбрано 3 из 7 доступных узлов (Indeterminate)';
+      } else {
+        box.className = 'w-4 h-4 rounded flex items-center justify-center border transition-all bg-accent border-accent text-slate-950 font-bold';
+        box.innerHTML = '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+        title.textContent = 'Выбрать все серверы';
+        desc.textContent = 'Выбраны все узлы флота (7 из 7)';
+      }
+    }
+
+    // ==========================================
+    // 18. SPLIT PANEL DEMO HELPERS
+    // ==========================================
+    let splitPanelIsMaximized = false;
+    let splitPanelIsOpen = true;
+
+    function toggleSplitPanelMaximizeDemo() {
+      const panel = document.getElementById('showcase-split-panel');
+      const btn = document.getElementById('split-maximize-btn');
+      const icon = document.getElementById('split-maximize-icon');
+
+      splitPanelIsMaximized = !splitPanelIsMaximized;
+      if (splitPanelIsMaximized) {
+        panel.className = 'border-l border-base-border flex flex-col bg-base-surface transition-all duration-200 z-50 fixed inset-0 w-full h-full max-w-none min-w-0';
+        panel.style.width = '100%';
+        btn.title = 'Свернуть в раздельный режим';
+        icon.innerHTML = '<polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/>';
+      } else {
+        panel.className = 'border-l border-base-border flex flex-col bg-base-surface transition-all duration-200 z-20 h-full shrink-0';
+        panel.style.width = '48%';
+        btn.title = 'Развернуть на весь экран';
+        icon.innerHTML = '<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>';
+      }
+    }
+
+    function toggleSplitPanelVisibilityDemo() {
+      const panel = document.getElementById('showcase-split-panel');
+      splitPanelIsOpen = !splitPanelIsOpen;
+      if (splitPanelIsOpen) {
+        panel.classList.remove('hidden');
+        if (splitPanelIsMaximized) toggleSplitPanelMaximizeDemo(); // reset maximize
+      } else {
+        if (splitPanelIsMaximized) toggleSplitPanelMaximizeDemo();
+        panel.classList.add('hidden');
+      }
+    }
 
     // INITIALIZATION
     applyTheme();
