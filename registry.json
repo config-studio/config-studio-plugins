@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-15T19:00:00.000Z",
+  "updatedAt": "2026-11-15T19:25:00.000Z",
   "plugins": [
     {
       "id": "servers",
@@ -105,8 +105,8 @@
     },
     {
       "id": "web-devkit",
-      "name": "Web DevKit v1.3.2",
-      "version": "1.3.2",
+      "name": "Web DevKit v1.3.3",
+      "version": "1.3.3",
       "description": "HTML & PHP Live Preview с симуляцией вкладки Chrome, сервер :8085, AST-структура и автодополнение",
       "author": "Config Studio Team",
       "icon": "🌐",
@@ -115,11 +115,11 @@
       "official": true,
       "locales": {
         "ru": {
-          "name": "Web DevKit v1.3.2",
+          "name": "Web DevKit v1.3.3",
           "description": "Живой предпросмотр HTML/PHP с вкладкой браузера Chrome, веб-сервер :8085, AST-структура и автодополнение Monaco"
         },
         "en": {
-          "name": "Web DevKit v1.3.2",
+          "name": "Web DevKit v1.3.3",
           "description": "HTML & PHP Live Preview with Chrome browser tab simulation, :8085 server, AST structure, and Monaco completions"
         }
       },
@@ -216,7 +216,7 @@
     {
       "id": "traefik",
       "name": "Traefik Dynamic Configuration",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "description": "Multi-file rules directory provider, cross-file @file autocomplete, go-to-definition, rules matrix, blueprints and Traefik Doctor",
       "author": "Config Studio Team",
       "icon": "network",
