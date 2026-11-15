@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-15T19:25:00.000Z",
+  "updatedAt": "2026-11-15T13:50:08.081Z",
   "plugins": [
     {
       "id": "servers",
       "name": "Servers & Fleet Manager",
       "version": "1.4.0",
-      "description": "Централизованное управление серверами, servers.yaml, нативный SSH/SFTP, Smart Plugin-Embedded агент (v2.3.0) с прямой установкой из .cspkg, отправка файлов и автообнаружение LAN",
+      "description": "Централизованное управление серверами, servers.yaml, нативный SSH/SFTP, встроенный агент и отправка файлов",
       "author": "Config Studio Team",
       "icon": "server",
       "downloadUrl": "https://github.com/config-studio/config-studio-servers/releases/latest/download/servers.cspkg",
@@ -15,7 +15,7 @@
       "locales": {
         "ru": {
           "name": "Флот серверов & Инвентарь",
-          "description": "Управление парком серверов, servers.yaml, SSH/SFTP, встроенный Smart-агент v2.3.0 из .cspkg (Air-Gapped) и отправка файлов",
+          "description": "Управление парком серверов, servers.yaml, SSH/SFTP, встроенный агент и отправка файлов",
           "fleetTitle": "Флот серверов",
           "allNodes": "Все узлы",
           "addServer": "Добавить узел",
@@ -55,7 +55,7 @@
         },
         "en": {
           "name": "Servers & Fleet Manager",
-          "description": "Centralized server inventory, servers.yaml, native SSH/SFTP and smart embedded agent v2.3.0 from .cspkg (Air-Gapped ready)",
+          "description": "Centralized server inventory, servers.yaml, native SSH/SFTP and agent integration in a unified switcher",
           "fleetTitle": "Server Fleet",
           "allNodes": "All Nodes",
           "addServer": "Add Node",
