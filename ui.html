@@ -78,8 +78,8 @@
     .modal-xxl { width: 80vw; height: 80vh; min-width: 780px; min-height: 580px; }
     .modal-xl { width: 60vw; height: 70vh; min-width: 620px; min-height: 480px; }
     .modal-lg { width: 45vw; height: 60vh; min-width: 500px; min-height: 400px; }
-    .modal-md { width: 32vw; min-width: 420px; max-height: 85vh; }
-    .modal-sm { width: 24vw; min-width: 360px; max-height: 85vh; }
+    .modal-md { width: 32vw; min-width: 540px; max-height: 85vh; }
+    .modal-sm { width: 24vw; min-width: 480px; max-height: 85vh; }
 
     @media (max-width: 640px) {
       .modal-xxl, .modal-xl, .modal-lg, .modal-md, .modal-sm {
@@ -334,7 +334,7 @@
           <div>
             <div class="flex items-center justify-between">
               <span class="font-bold text-white text-sm">sm (24vw)</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-black/30 text-gray-400 font-mono">≥360px</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-black/30 text-gray-400 font-mono">≥480px</span>
             </div>
             <p class="text-[11px] text-gray-400 mt-1.5 leading-relaxed">
               Диалоги подтверждения, удаление, ввод пароля/PIN.
@@ -350,7 +350,7 @@
           <div>
             <div class="flex items-center justify-between">
               <span class="font-bold text-white text-sm">md (32vw)</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-black/30 text-gray-400 font-mono">≥420px</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-black/30 text-gray-400 font-mono">≥540px</span>
             </div>
             <p class="text-[11px] text-gray-400 mt-1.5 leading-relaxed">
               Добавление рабочей папки, быстрые формы, генератор ключей.
@@ -857,6 +857,31 @@
             <input type="number" value="22" class="w-full px-3 py-2 rounded-xl bg-black/25 border border-base-border text-xs text-white focus:outline-none focus:border-accent" />
           </div>
         </div>
+
+        <div class="pt-3 border-t border-base-border/50">
+          <p class="text-[11px] font-semibold text-gray-300 mb-2">Сетка Remote Agent (URL + Порт 130px + Vault Secret)</p>
+          <div class="grid grid-cols-[1fr_130px] gap-3 mb-3">
+            <div class="space-y-1">
+              <label class="text-[11px] text-gray-400">URL / Хост агента</label>
+              <input type="text" value="http://192.168.0.110" class="w-full px-3 py-2 rounded-xl bg-black/25 border border-base-border text-xs text-white focus:outline-none focus:border-accent" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-[11px] text-gray-400">Порт агента</label>
+              <input type="number" value="8443" class="w-full px-3 py-2 rounded-xl bg-black/25 border border-base-border text-xs text-white focus:outline-none focus:border-accent" />
+            </div>
+          </div>
+          <div class="space-y-1">
+            <label class="text-[11px] text-gray-400">Секрет авторизации агента (Vault TOTP / Token)</label>
+            <div class="w-full px-3 py-2 rounded-xl bg-black/25 border border-base-border text-xs text-white flex items-center justify-between">
+              <span class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span>Agent Credentials (debian)</span>
+                <span class="text-[10px] text-gray-400 font-mono">ID: agent:debian</span>
+              </span>
+              <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">AGENT</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -879,6 +904,9 @@
         </span>
         <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-sky-500/15 text-sky-400 border border-sky-500/30">
           REMOTE AGENT
+        </span>
+        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+          AGENT (TOTP)
         </span>
         <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-purple-500/15 text-purple-400 border border-purple-500/30">
           API TOKEN
@@ -1200,8 +1228,8 @@
       box.className = `bg-base-surface border border-base-border rounded-3xl shadow-2xl flex flex-col overflow-hidden transition-all duration-200 ${sizeClass}`;
 
       const titles = {
-        sm: { title: 'Подтверждение операции (sm: 24vw)', icon: '🔒', badge: 'MIN 360PX', desc: 'Компактное окно для ввода пароля, пин-кода или опасных действий.' },
-        md: { title: 'Добавить рабочую папку в проект (md: 32vw)', icon: '📁', badge: 'MIN 420PX', desc: 'Подключение системного каталога хоста в Multi-Root Workspace.' },
+        sm: { title: 'Подтверждение операции (sm: 24vw)', icon: '🔒', badge: 'MIN 480PX', desc: 'Компактное окно для ввода пароля, пин-кода или опасных действий.' },
+        md: { title: 'Добавить рабочую папку в проект (md: 32vw)', icon: '📁', badge: 'MIN 540PX', desc: 'Подключение системного каталога хоста в Multi-Root Workspace.' },
         lg: { title: 'Свойства файла & Time Machine (lg: 45vw)', icon: '📜', badge: 'MIN 500×400', desc: 'Инспектор метаданных, ревизии и снимок истории.' },
         xl: { title: 'Конфигуратор и Diff-сравнение ревизий (xl: 60vw)', icon: '⚡', badge: '20% ПОЛЯ', desc: 'Параллельное сравнение версий конфигурации.' },
         xxl: { title: 'Параметры и настройки Config Studio (xxl: 80vw)', icon: '⚙️', badge: '10% ПОЛЯ', desc: 'Эталонное окно настроек с 10% отступом со всех 4 сторон.' },
@@ -1525,7 +1553,7 @@
 
     createDropdownDemo('demo-dropdown-vault', [
       { value: 'none', label: '(Авто / Агент ОС / Без ключа)', sub: 'Системный ssh-agent или интерактивный ввод', dot: '', icon: '🔑', badge: 'AUTO', badgeColor: 'bg-black/30 text-gray-400' },
-      { value: 'sec_1', label: 'Agent Credentials (debian)', sub: 'ID: agent:debian', dot: 'green', icon: '🔒', badge: 'PASSWORD', badgeColor: 'bg-emerald-500/20 text-emerald-300' },
+      { value: 'sec_1', label: 'Agent Credentials (debian)', sub: 'ID: agent:debian', dot: 'green', icon: '🔒', badge: 'AGENT', badgeColor: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' },
       { value: 'sec_2', label: 'Remote Agent: alpine-test', sub: 'ID: cs_agent_sec_srv_01', dot: 'green', icon: '⚡', badge: 'TOKEN', badgeColor: 'bg-purple-500/20 text-purple-300' },
       { value: 'sec_3', label: 'main root key', sub: 'ID: id_rsa_main_vault', dot: 'green', icon: '🛡️', badge: 'SSH KEY', badgeColor: 'bg-sky-500/20 text-sky-300' }
     ], 'sec_1');
