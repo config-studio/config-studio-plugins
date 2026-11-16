@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-16T05:55:35.687Z",
+  "updatedAt": "2026-11-16T15:31:51.917Z",
   "plugins": [
     {
       "id": "servers",
       "name": "Servers & Fleet Manager",
-      "version": "1.4.0",
+      "version": "main",
       "description": "Централизованное управление серверами, servers.yaml, нативный SSH/SFTP, массовая параллельная установка агентов и отправка файлов",
       "author": "Config Studio Team",
       "icon": "server",
