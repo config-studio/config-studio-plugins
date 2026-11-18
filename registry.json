@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-18T16:42:41.570Z",
+  "updatedAt": "2026-11-18T17:00:16.844Z",
   "plugins": [
     {
       "id": "servers",
@@ -101,7 +101,8 @@
         "Agent",
         "Infrastructure",
         "Air-Gapped"
-      ]
+      ],
+      "minAppVersion": "2.3.6"
     },
     {
       "id": "web-devkit",
@@ -128,7 +129,8 @@
         "PHP",
         "Live Preview",
         "Server"
-      ]
+      ],
+      "minAppVersion": "2.3.6"
     },
     {
       "id": "lang-en",
@@ -154,7 +156,8 @@
         "Localization",
         "Language",
         "English"
-      ]
+      ],
+      "minAppVersion": "2.3.6"
     },
     {
       "id": "lang-ru",
@@ -180,7 +183,8 @@
         "Localization",
         "Language",
         "Russian"
-      ]
+      ],
+      "minAppVersion": "2.3.6"
     },
     {
       "id": "lang-de",
@@ -211,7 +215,8 @@
         "Language",
         "German",
         "Deutsch"
-      ]
+      ],
+      "minAppVersion": "2.3.6"
     },
     {
       "id": "traefik",
@@ -257,7 +262,8 @@
         "Docker",
         "Routing",
         "YAML"
-      ]
+      ],
+      "minAppVersion": "2.3.6"
     }
   ]
 }

@@ -1,4 +1,8 @@
 ﻿
+# Packages & Binaries
+*.cspkg
+packages/
+
 # doubled-graph
 .doubled-graph/logs/
 .doubled-graph/cache/
