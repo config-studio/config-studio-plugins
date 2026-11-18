@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-11-18T15:28:16.392Z",
+  "updatedAt": "2026-11-18T16:42:41.570Z",
   "plugins": [
     {
       "id": "servers",
@@ -133,7 +133,7 @@
     {
       "id": "lang-en",
       "name": "English Language Pack",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Full English localization for Config Studio UI 🇬🇧",
       "author": "Edvard Baldanov",
       "icon": "🇬🇧",
@@ -159,7 +159,7 @@
     {
       "id": "lang-ru",
       "name": "Русский языковой пакет",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Полная русская локализация интерфейса Config Studio 🇷🇺",
       "author": "Edvard Baldanov",
       "icon": "🇷🇺",
@@ -185,7 +185,7 @@
     {
       "id": "lang-de",
       "name": "German Language Pack",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Deutsche Benutzeroberfläche für Config Studio",
       "author": "Edvard Baldanov",
       "icon": "🇩🇪",
